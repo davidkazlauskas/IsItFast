@@ -5,7 +5,7 @@ project( IsItFast CXX )
 
 include_directories(  $ENV{TEMPLATIOUS_DIR} )
 
-add_executable( a.out main.cpp )
+add_executable( a.out main.cpp BenchRunner.cpp )
 
 ADD_DEFINITIONS(
     -std=c++11

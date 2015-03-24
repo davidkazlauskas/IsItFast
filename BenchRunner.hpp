@@ -30,7 +30,10 @@ struct TimeResolution {
 
 class Benchmark {
 
+
     std::vector< SingleTask > _tasks;
+    std::vector< long > _times;
+    int _repetition;
 };
 
 }

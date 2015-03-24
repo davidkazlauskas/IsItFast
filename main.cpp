@@ -18,5 +18,7 @@
 
 #include <iostream>
 
+#include "BenchRunner.hpp"
+
 int main(int argc,char* argv[]) {
 }

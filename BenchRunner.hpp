@@ -31,6 +31,7 @@ struct TimeResolution {
 class Benchmark {
 
 
+private:
     std::vector< SingleTask > _tasks;
     std::vector< long > _times;
     int _repetition;

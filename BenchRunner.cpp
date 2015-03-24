@@ -34,13 +34,13 @@ namespace IsItFast {
         >(this->_times);
     }
 
-    templatious::VCollection< SingleTask > Benchmark::taskHandle() {
+    templatious::VCollection< SingleTask* > Benchmark::taskHandle() {
         return SF::vcollectionCustom<
             templatious::AP_ENABLED,
             templatious::CP_THROW,
             templatious::TP_THROW,
             templatious::ACP_THROW,
             templatious::SP_ENABLED
-        >(this->_times);
+        >(this->_tasks);
     }
 }

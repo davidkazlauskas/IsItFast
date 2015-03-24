@@ -18,4 +18,13 @@
 
 namespace IsItFast {
 
+struct SingleTask {
+    virtual void run() = 0;
+};
+
+class Benchmark {
+
+
+};
+
 }

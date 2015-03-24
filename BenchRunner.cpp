@@ -55,5 +55,13 @@ namespace IsItFast {
     void Benchmark::run() {
         assert(!_isRun);
         _isRun = true;
+
+        TEMPLATIOUS_FOREACH(auto i,_tasks) {
+            long start = _resStrat->resolve();
+            i->run();
+            long end = _resStrat->resolve();
+            long diff = end - start;
+            SA::add(_times,diff);
+        }
     }
 }

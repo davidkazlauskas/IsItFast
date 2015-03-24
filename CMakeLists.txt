@@ -1,0 +1,21 @@
+
+cmake_minimum_required( VERSION 2.6 )
+
+project( IsItFast CXX )
+
+include_directories(  $ENV{TEMPLATIOUS_DIR} )
+
+add_executable( a.out main.cpp )
+
+ADD_DEFINITIONS(
+    -std=c++11
+    -lstdc++
+    -Wall
+    -x c++
+    -g
+    -O0
+)
+
+SET( SET_CMAKE_CXX_COMPILER "g++-4.8" )
+
+SET( CMAKE_EXPORT_COMPILE_COMMANDS ON )

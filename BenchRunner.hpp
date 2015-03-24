@@ -31,7 +31,7 @@ struct TimeResolution {
 };
 
 class Benchmark {
-    templatious::VCollection< long > getTimes() const;
+    templatious::VCollection< const long > getTimes() const;
 private:
     std::vector< SingleTask > _tasks;
     std::vector< long > _times;

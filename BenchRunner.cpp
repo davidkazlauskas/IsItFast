@@ -18,6 +18,16 @@
 
 #include "BenchRunner.hpp"
 
-namespace IsItFast {
+TEMPLATIOUS_TRIPLET_STD;
 
+namespace IsItFast {
+    templatious::VCollection< const long > Benchmark::getTimes() const {
+        return SF::vcollectionCustom<
+            templatious::AP_THROW,
+            templatious::CP_THROW,
+            templatious::TP_ENABLED,
+            templatious::ACP_THROW,
+            templatious::SP_ENABLED
+        >(this->_times);
+    }
 }

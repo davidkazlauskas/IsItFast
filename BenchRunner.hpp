@@ -24,6 +24,10 @@ struct SingleTask {
     virtual void run() = 0;
 };
 
+struct TimeResolution {
+    virtual long resolve() = 0;
+};
+
 class Benchmark {
 
     std::vector< SingleTask > _tasks;

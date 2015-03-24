@@ -32,6 +32,20 @@ struct TimeResolution {
     virtual long resolve() = 0;
 };
 
+struct ResNode {
+    ResNode(long f,long c,const char* k,const char* fname) :
+        _full(f), _count(c),
+        _avg(static_cast<double>(_full)/_count),
+        _key(k), _fullName(fname)
+    {}
+
+    long _full;
+    long _count;
+    double _avg;
+    std::string _key;
+    std::string _fullName;
+};
+
 class Benchmark {
     templatious::VCollection< const long > getTimes() const;
     templatious::VCollection< SingleTask* > taskHandle();

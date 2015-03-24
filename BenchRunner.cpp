@@ -16,6 +16,8 @@
  * =====================================================================================
  */
 
+#include <cassert>
+
 #include "BenchRunner.hpp"
 
 TEMPLATIOUS_TRIPLET_STD;
@@ -24,7 +26,11 @@ namespace IsItFast {
     Benchmark::Benchmark(
             TimeResolution* ptr, int rep,
             const char* key, const char* fullName) :
-        _resStrat(ptr), _repetition(rep), _keyName(key), _fullName(fullName) {}
+        _resStrat(ptr), _repetition(rep), _isRun(false),
+        _keyName(key), _fullName(fullName)
+    {
+        _times.reserve(rep);
+    }
 
     templatious::VCollection< const long > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
@@ -44,5 +50,10 @@ namespace IsItFast {
             templatious::ACP_THROW,
             templatious::SP_ENABLED
         >(this->_tasks);
+    }
+
+    void Benchmark::run() {
+        assert(!_isRun);
+        _isRun = true;
     }
 }

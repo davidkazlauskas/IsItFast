@@ -37,9 +37,12 @@ class Benchmark {
     templatious::VCollection< SingleTask* > taskHandle();
 
     Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
+
+    void run();
 private:
     TimeResolution* _resStrat;
     int _repetition;
+    bool _isRun;
     std::vector< SingleTask* > _tasks;
     std::vector< long > _times;
     std::string _keyName;

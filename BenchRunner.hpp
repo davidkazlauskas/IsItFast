@@ -16,6 +16,8 @@
  * =====================================================================================
  */
 
+#include <vector>
+
 namespace IsItFast {
 
 struct SingleTask {
@@ -24,7 +26,7 @@ struct SingleTask {
 
 class Benchmark {
 
-
+    std::vector< SingleTask > _tasks;
 };
 
 }

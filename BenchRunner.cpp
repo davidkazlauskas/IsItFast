@@ -29,10 +29,10 @@ namespace IsItFast {
         _resStrat(ptr), _repetition(rep), _isRun(false),
         _keyName(key), _fullName(fullName)
     {
-        _times.reserve(rep);
+        _times.reserve(8);
     }
 
-    templatious::VCollection< const long > Benchmark::getTimes() const {
+    templatious::VCollection< const ResNode > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
             templatious::AP_THROW,
             templatious::CP_THROW,
@@ -57,11 +57,19 @@ namespace IsItFast {
         _isRun = true;
 
         TEMPLATIOUS_FOREACH(auto i,_tasks) {
-            long start = _resStrat->resolve();
-            i->run();
-            long end = _resStrat->resolve();
-            long diff = end - start;
-            SA::add(_times,diff);
+            long sum = 0;
+            TEMPLATIOUS_REPEAT( _repetition ) {
+                long start = _resStrat->resolve();
+                i->run();
+                long end = _resStrat->resolve();
+                long diff = end - start;
+                sum += diff;
+            }
+
+            ResNode r(sum,_repetition,
+                i->keyName(),i->fullName());
+
+            SA::add(_times,std::move(r));
         }
     }
 }

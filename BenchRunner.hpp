@@ -47,7 +47,7 @@ struct ResNode {
 };
 
 class Benchmark {
-    templatious::VCollection< const long > getTimes() const;
+    templatious::VCollection< const ResNode > getTimes() const;
     templatious::VCollection< SingleTask* > taskHandle();
 
     Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
@@ -58,7 +58,7 @@ private:
     int _repetition;
     bool _isRun;
     std::vector< SingleTask* > _tasks;
-    std::vector< long > _times;
+    std::vector< ResNode > _times;
     std::string _keyName;
     std::string _fullName;
 };

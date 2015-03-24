@@ -18,6 +18,8 @@
 
 #include <vector>
 
+#include <templatious/FullPack.hpp>
+
 namespace IsItFast {
 
 struct SingleTask {

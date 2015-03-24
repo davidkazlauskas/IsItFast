@@ -21,11 +21,24 @@
 TEMPLATIOUS_TRIPLET_STD;
 
 namespace IsItFast {
+    Benchmark::Benchmark(TimeResolution* ptr, int rep) :
+        _resStrat(ptr), _repetition(rep) { }
+
     templatious::VCollection< const long > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
             templatious::AP_THROW,
             templatious::CP_THROW,
             templatious::TP_ENABLED,
+            templatious::ACP_THROW,
+            templatious::SP_ENABLED
+        >(this->_times);
+    }
+
+    templatious::VCollection< SingleTask > Benchmark::taskHandle() {
+        return SF::vcollectionCustom<
+            templatious::AP_ENABLED,
+            templatious::CP_THROW,
+            templatious::TP_THROW,
             templatious::ACP_THROW,
             templatious::SP_ENABLED
         >(this->_times);

@@ -24,6 +24,8 @@ namespace IsItFast {
 
 struct SingleTask {
     virtual void run() = 0;
+    virtual const char* keyName() const = 0;
+    virtual const char* fullName() const = 0;
 };
 
 struct TimeResolution {
@@ -34,12 +36,14 @@ class Benchmark {
     templatious::VCollection< const long > getTimes() const;
     templatious::VCollection< SingleTask* > taskHandle();
 
-    Benchmark(TimeResolution* ptr,int rep);
+    Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
 private:
     TimeResolution* _resStrat;
     int _repetition;
     std::vector< SingleTask* > _tasks;
     std::vector< long > _times;
+    std::string _keyName;
+    std::string _fullName;
 };
 
 }

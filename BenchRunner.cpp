@@ -21,8 +21,10 @@
 TEMPLATIOUS_TRIPLET_STD;
 
 namespace IsItFast {
-    Benchmark::Benchmark(TimeResolution* ptr, int rep) :
-        _resStrat(ptr), _repetition(rep) { }
+    Benchmark::Benchmark(
+            TimeResolution* ptr, int rep,
+            const char* key, const char* fullName) :
+        _resStrat(ptr), _repetition(rep), _keyName(key), _fullName(fullName) {}
 
     templatious::VCollection< const long > Benchmark::getTimes() const {
         return SF::vcollectionCustom<

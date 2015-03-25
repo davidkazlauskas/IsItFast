@@ -70,7 +70,11 @@ public:
     void addBenchmark(Benchmark&& m);
 
     templatious::VCollection< const Benchmark > viewResults() const;
+
+    static BenchCollection s_inst;
 private:
+    BenchCollection() {}
+
     std::vector< Benchmark > _benchmarks;
 };
 

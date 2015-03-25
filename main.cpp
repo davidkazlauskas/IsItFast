@@ -21,4 +21,5 @@
 #include "BenchRunner.hpp"
 
 int main(int argc,char* argv[]) {
+    IsItFast::BenchCollection::s_inst.runAll();
 }

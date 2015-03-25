@@ -32,6 +32,15 @@ namespace IsItFast {
         _times.reserve(8);
     }
 
+    Benchmark::Benchmark(Benchmark&& other) :
+        _resStrat(other._resStrat),
+        _repetition(other._repetition),
+        _isRun(other._isRun),
+        _keyName(other._keyName),
+        _fullName(other._fullName)
+    {
+    }
+
     templatious::VCollection< const ResNode > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
             templatious::AP_THROW,
@@ -74,7 +83,7 @@ namespace IsItFast {
     }
 
     void BenchCollection::runAll() {
-        TEMPLATIOUS_FOREACH(auto i,_benchmarks) {
+        TEMPLATIOUS_FOREACH(auto& i,_benchmarks) {
             i.run();
         }
     }

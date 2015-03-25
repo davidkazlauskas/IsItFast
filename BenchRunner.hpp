@@ -54,6 +54,8 @@ public:
     Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
 
     void run();
+
+    Benchmark(Benchmark&& other);
 private:
     TimeResolution* _resStrat;
     int _repetition;

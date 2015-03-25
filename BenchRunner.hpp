@@ -66,6 +66,7 @@ private:
 class BenchCollection {
 public:
     void runAll();
+    void addBenchmark(Benchmark&& m);
 
     templatious::VCollection< const Benchmark > viewResults() const;
 private:

@@ -35,6 +35,14 @@ struct TimeResolution {
     virtual long resolve() = 0;
 };
 
+struct TimeResolutionFactory {
+    enum Variant {
+        CHRONO_HIGH_RESOLUTION
+    };
+
+    static TimeResolution* get(int i);
+};
+
 struct ResNode {
     ResNode(long f,long c,const char* k,const char* fname) :
         _full(f), _count(c),

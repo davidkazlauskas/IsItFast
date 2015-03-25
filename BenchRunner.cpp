@@ -17,6 +17,7 @@
  */
 
 #include <cassert>
+#include <chrono>
 
 #include "BenchRunner.hpp"
 
@@ -103,5 +104,24 @@ namespace IsItFast {
     }
 
     BenchCollection BenchCollection::s_inst = BenchCollection();
+
+    struct ChronoHighResolution : TimeResolution {
+        virtual long resolve() override {
+            auto now = std::chrono::high_resolution_clock::now();
+            return std::chrono::duration_cast<std::chrono::milliseconds>(
+                //now.time_since_epoch()
+                now.time_since_epoch()
+            ).count();
+        }
+    };
+
+    static ChronoHighResolution s_chl = ChronoHighResolution();
+
+    TimeResolution* TimeResolutionFactory::get(int i) {
+        if (i == CHRONO_HIGH_RESOLUTION) {
+            return &s_chl;
+        }
+        return nullptr;
+    }
 
 }

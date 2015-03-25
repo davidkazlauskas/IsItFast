@@ -63,4 +63,13 @@ private:
     std::string _fullName;
 };
 
+class BenchCollection {
+public:
+    void runAll();
+
+    templatious::VCollection< const Benchmark > viewResults() const;
+private:
+    std::vector< Benchmark > _benchmarks;
+};
+
 }

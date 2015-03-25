@@ -16,6 +16,9 @@
  * =====================================================================================
  */
 
+#ifndef BENCHRUNNER_ER0XCDF2
+#define BENCHRUNNER_ER0XCDF2
+
 #include <vector>
 
 #include <templatious/FullPack.hpp>
@@ -81,3 +84,5 @@ private:
 };
 
 }
+
+#endif /* end of include guard: BENCHRUNNER_ER0XCDF2 */

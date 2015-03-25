@@ -101,4 +101,7 @@ namespace IsItFast {
             templatious::SP_ENABLED
         >(_benchmarks);
     }
+
+    BenchCollection BenchCollection::s_inst = BenchCollection();
+
 }

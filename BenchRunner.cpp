@@ -72,4 +72,24 @@ namespace IsItFast {
             SA::add(_times,std::move(r));
         }
     }
+
+    void BenchCollection::runAll() {
+        TEMPLATIOUS_FOREACH(auto i,_benchmarks) {
+            i.run();
+        }
+    }
+
+    void BenchCollection::addBenchmark(Benchmark&& m) {
+        SA::add(_benchmarks,std::move(m));
+    }
+
+    templatious::VCollection< const Benchmark > BenchCollection::viewResults() const {
+        return SF::vcollectionCustom<
+            templatious::AP_THROW,
+            templatious::CP_THROW,
+            templatious::TP_ENABLED,
+            templatious::ACP_THROW,
+            templatious::SP_ENABLED
+        >(_benchmarks);
+    }
 }

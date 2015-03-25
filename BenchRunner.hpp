@@ -47,6 +47,7 @@ struct ResNode {
 };
 
 class Benchmark {
+public:
     templatious::VCollection< const ResNode > getTimes() const;
     templatious::VCollection< SingleTask* > taskHandle();
 

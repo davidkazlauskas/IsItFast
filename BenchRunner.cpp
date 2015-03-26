@@ -106,14 +106,21 @@ namespace IsItFast {
     BenchCollection BenchCollection::s_inst = BenchCollection();
 
     struct ChronoHighResolution : TimeResolution {
+        typedef std::chrono::time_point<
+            std::chrono::high_resolution_clock
+        > TimePoint;
+        static const TimePoint s_referencePoint;
+
         virtual long resolve() override {
             auto now = std::chrono::high_resolution_clock::now();
             return std::chrono::duration_cast<std::chrono::milliseconds>(
-                //now.time_since_epoch()
-                now.time_since_epoch()
+                now - s_referencePoint
             ).count();
         }
     };
+
+    const ChronoHighResolution::TimePoint ChronoHighResolution::s_referencePoint =
+        std::chrono::high_resolution_clock::now();
 
     static ChronoHighResolution s_chl = ChronoHighResolution();
 

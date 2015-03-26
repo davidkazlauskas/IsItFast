@@ -113,7 +113,7 @@ namespace IsItFast {
 
         virtual long resolve() override {
             auto now = std::chrono::high_resolution_clock::now();
-            return std::chrono::duration_cast<std::chrono::milliseconds>(
+            return std::chrono::duration_cast<std::chrono::microseconds>(
                 now - s_referencePoint
             ).count();
         }

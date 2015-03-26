@@ -5,7 +5,11 @@ project( IsItFast CXX )
 
 include_directories(  $ENV{TEMPLATIOUS_DIR} )
 
-add_executable( a.out main.cpp BenchRunner.cpp )
+file( GLOB bench_files
+    "benchmarks/*.cpp" )
+
+add_executable( a.out main.cpp BenchRunner.cpp
+    ${bench_files} )
 
 ADD_DEFINITIONS(
     -std=c++11

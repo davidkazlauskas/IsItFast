@@ -20,6 +20,24 @@
 
 #include "BenchRunner.hpp"
 
+TEMPLATIOUS_TRIPLET_STD;
+
 int main(int argc,char* argv[]) {
-    IsItFast::BenchCollection::s_inst.runAll();
+    auto& r = IsItFast::BenchCollection::s_inst;
+    r.runAll();
+
+    std::string full;
+    double avgTime;
+
+    auto p = SF::pack("Name: ",full,"; Time: ",avgTime,"\n");
+    auto sf = SF::streamOutFunctor(std::cout);
+
+    TEMPLATIOUS_FOREACH(auto& i,r.viewResults()) {
+        TEMPLATIOUS_FOREACH(auto& j,i.getTimes()) {
+            full = j._fullName;
+            avgTime = j._avg;
+
+            SM::callEach(sf,p);
+        }
+    }
 }

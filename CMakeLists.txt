@@ -17,7 +17,7 @@ ADD_DEFINITIONS(
     -Wall
     -x c++
     -g
-    -O3
+    -O2
 )
 
 #SET( SET_CMAKE_CXX_COMPILER "g++-4.8" )

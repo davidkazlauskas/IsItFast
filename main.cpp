@@ -31,7 +31,7 @@ int main(int argc,char* argv[]) {
     std::string full;
     std::string sName;
     double avgTime;
-    auto p = SF::pack("\tShort Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"\n");
+    auto p = SF::pack("\tShort Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"ms\n");
 
     std::string blockName;
     std::string fullBlockName;

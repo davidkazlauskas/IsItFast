@@ -26,28 +26,35 @@ namespace IsItFast {
         Benchmark add(tr,50,"SA_add","Addition to vector with"
                 "templatious and with default method.");
 
+        static const int N_NUM = 100000;
+
+        auto shared = std::make_shared< std::vector<int> >();
+        shared->reserve(N_NUM);
+
         auto defAdd =
-            []() {
-                std::vector<int> v;
-                for (int i = 0; i < 100000; ++i) {
-                    v.push_back(i);
+            [shared]() {
+                auto& vec = *shared;
+                vec.clear();
+                for (int i = 0; i < N_NUM; ++i) {
+                    vec.push_back(i);
                 }
             };
 
         auto tempAdd =
-            []() {
-                std::vector<int> v;
-                SA::add(v,SF::seqL(100000));
+            [shared]() {
+                auto& vec = *shared;
+                vec.clear();
+                SA::add(vec,SF::seqL(N_NUM));
             };
 
         add.addTask("PADDING_DOESN_COUNT",
                 "Padding (first is slowest)",defAdd);
 
         add.addTask("addition_default",
-                "Default addition",defAdd);
+                "Default addition",tempAdd);
 
         add.addTask("addition_templatious",
-                "Default addition",tempAdd);
+                "Default addition",defAdd);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

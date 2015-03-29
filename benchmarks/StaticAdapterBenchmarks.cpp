@@ -25,7 +25,7 @@ namespace IsItFast {
 
     bool staticAdapterAdd() {
         Benchmark add(tr,50,"SA_add","Addition to vector with"
-                "templatious and with default method.");
+                " templatious and with default method.");
 
         static const int N_NUM = 100000;
 

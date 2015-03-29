@@ -97,6 +97,7 @@ namespace IsItFast {
             []() {
                 volatile long sum =
                     SM::sum<int>(SF::seqL(N_NUM));
+                // no warning about unused var
                 return sum;
             };
 

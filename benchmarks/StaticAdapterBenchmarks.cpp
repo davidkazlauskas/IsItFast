@@ -24,7 +24,12 @@ namespace IsItFast {
         Benchmark add(tr,50,"SA_add","Addition to vector with"
                 "templatious and with default method.");
 
-        add.taskHandle()
+        BENCH_TASK_GEN( AdditionDefault,
+                "addition_default",
+                "Add to vector 10000000 elements",
+            ad, {
+
+        });
 
         return true;
     }

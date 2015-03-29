@@ -21,8 +21,9 @@
 TEMPLATIOUS_TRIPLET_STD;
 
 namespace IsItFast {
-    bool addBenchmarks() {
-        TimeResolution* tr = TimeResolutionFactory::s_curr;
+    TimeResolution* tr = TimeResolutionFactory::s_curr;
+
+    bool staticAdapterAdd() {
         Benchmark add(tr,50,"SA_add","Addition to vector with"
                 "templatious and with default method.");
 
@@ -50,7 +51,7 @@ namespace IsItFast {
         add.addTask("PADDING_DOESNT_COUNT",
                 "Padding (first is slowest)",defAdd);
 
-        add.addTask("addition_default",
+        add.addTask("BOILERPLATE",
                 "Default addition",defAdd);
 
         add.addTask("addition_templatious",
@@ -61,6 +62,53 @@ namespace IsItFast {
         return true;
     }
 
-    static bool didAdd = addBenchmarks();
+    bool foreachBenchmark() {
+        Benchmark add(tr,50,"foreach","Traverse and sum 100000"
+            " integers.");
+
+        static const int N_NUM = 100000;
+        auto boiler =
+            []() {
+                // volatile - don't optimize out
+                volatile long sum = 0;
+                for (int i = 0; i < N_NUM; ++i) {
+                    sum += i;
+                }
+            };
+
+        auto tempA =
+            []() {
+                // volatile - don't optimize out
+                volatile long sum = 0;
+                TEMPLATIOUS_FOREACH(auto i,SF::seqL(N_NUM)) {
+                    sum += i;
+                }
+            };
+
+        auto tempB =
+            []() {
+                // volatile - don't optimize out
+                volatile long sum = 0;
+                SM::forEach([&](int i) { sum += i; },
+                    SF::seqL(N_NUM));
+            };
+
+        auto tempC =
+            []() {
+                volatile long sum =
+                    SM::sum<int>(SF::seqL(N_NUM));
+            };
+
+        add.addTask("BOILERPLATE","Default summing",
+            boiler);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
+    }
+
+    static bool didAdd =
+        staticAdapterAdd()
+        && foreachBenchmark();
 }
 

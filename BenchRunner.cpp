@@ -80,6 +80,14 @@ namespace IsItFast {
         SA::add(_tasks,SingleTask(key,full,t));
     }
 
+    std::string Benchmark::keyName() const {
+        return _keyName;
+    }
+
+    std::string Benchmark::fullName() const {
+        return _fullName;
+    }
+
     void BenchCollection::runAll() {
         TEMPLATIOUS_FOREACH(auto& i,_benchmarks) {
             i.run();

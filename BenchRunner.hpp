@@ -67,6 +67,9 @@ public:
 
     void addTask(const char* key,const char* full,FnType t);
 
+    std::string keyName() const;
+    std::string fullName() const;
+
     Benchmark(Benchmark&& other);
 private:
     struct SingleTask {

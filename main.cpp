@@ -26,14 +26,21 @@ int main(int argc,char* argv[]) {
     auto& r = IsItFast::BenchCollection::s_inst;
     r.runAll();
 
+    auto sf = SF::streamOutFunctor(std::cout);
+
     std::string full;
     std::string sName;
     double avgTime;
+    auto p = SF::pack("\tShort Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"\n");
 
-    auto p = SF::pack("Short Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"\n");
-    auto sf = SF::streamOutFunctor(std::cout);
-
+    std::string blockName;
+    std::string fullBlockName;
+    auto pb = SF::pack("Bench block: ",blockName," (",fullBlockName,")\n");
+    auto tail = SF::pack(SF::packRepeat<27>('-'),"\n");
     TEMPLATIOUS_FOREACH(auto& i,r.viewResults()) {
+        blockName = i.keyName();
+        fullBlockName = i.fullName();
+        SM::callEach(sf,pb);
         TEMPLATIOUS_FOREACH(auto& j,i.getTimes()) {
             sName = j._key;
             full = j._fullName;
@@ -41,5 +48,6 @@ int main(int argc,char* argv[]) {
 
             SM::callEach(sf,p);
         }
+        SM::callEach(sf,tail);
     }
 }

@@ -21,7 +21,10 @@
 namespace IsItFast {
     bool addBenchmarks() {
         TimeResolution* tr = TimeResolutionFactory::s_curr;
-        Benchmark add(tr,50,"SA_add","");
+        Benchmark add(tr,50,"SA_add","Addition to vector with"
+                "templatious and with default method.");
+
+        add.taskHandle()
 
         return true;
     }

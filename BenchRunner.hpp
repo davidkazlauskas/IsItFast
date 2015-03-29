@@ -31,6 +31,27 @@ struct SingleTask {
     virtual const char* fullName() const = 0;
 };
 
+#define BENCH_TASK_GEN(name,fullName,clName,valName,code) \
+    struct name {\
+        name(const char* sn,const char* fn) :\
+            _shortName(sn), _fullName(fn) {}\
+\
+        virtual const char* keyName() const {\
+            return _shortName.c_str();\
+        }\
+\
+        virtual const char* fullName() const {\
+            return _fullName.c_str();\
+        }\
+\
+        virtual void run() {\
+            code\
+        }\
+    private:\
+        std::string _shortName;\
+        std::string _fullName;\
+    };
+
 struct TimeResolution {
     virtual long resolve() = 0;
 };

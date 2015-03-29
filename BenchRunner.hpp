@@ -25,36 +25,6 @@
 
 namespace IsItFast {
 
-struct SingleTask {
-    virtual void run() = 0;
-    virtual const char* keyName() const = 0;
-    virtual const char* fullName() const = 0;
-    virtual ~SingleTask() {}
-};
-
-#define BENCH_TASK_GEN(name,fullNameL,clNameL,valName,code) \
-    struct name : public SingleTask {\
-        name(const char* sn,const char* fn) :\
-            _shortName(sn), _fullName(fn) {}\
-\
-        virtual const char* keyName() const {\
-            return _shortName.c_str();\
-        }\
-\
-        virtual const char* fullName() const {\
-            return _fullName.c_str();\
-        }\
-\
-        virtual void run() {\
-            code\
-        }\
-    private:\
-        std::string _shortName;\
-        std::string _fullName;\
-    };\
-\
-    name* valName = new name(fullNameL,clNameL);
-
 struct TimeResolution {
     virtual long resolve() = 0;
 };
@@ -87,19 +57,31 @@ struct ResNode {
 class Benchmark {
 public:
     templatious::VCollection< const ResNode > getTimes() const;
-    templatious::VCollection< SingleTask* > taskHandle();
 
     Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
     ~Benchmark();
 
     void run();
 
+    typedef std::function< void() > FnType;
+
+    void addTask(const char* key,const char* full,FnType t);
+
     Benchmark(Benchmark&& other);
 private:
+    struct SingleTask {
+        SingleTask(const char* key,const char* full,FnType f) :
+            _keyName(key), _fullName(full), _f(f) {}
+
+        std::string _keyName;
+        std::string _fullName;
+        FnType _f;
+    };
+
     TimeResolution* _resStrat;
     int _repetition;
     bool _isRun;
-    std::vector< SingleTask* > _tasks;
+    std::vector< SingleTask > _tasks;
     std::vector< ResNode > _times;
     std::string _keyName;
     std::string _fullName;

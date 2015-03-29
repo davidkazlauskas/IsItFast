@@ -51,10 +51,10 @@ namespace IsItFast {
                 "Padding (first is slowest)",defAdd);
 
         add.addTask("addition_default",
-                "Default addition",tempAdd);
+                "Default addition",defAdd);
 
         add.addTask("addition_templatious",
-                "Default addition",defAdd);
+                "Default addition",tempAdd);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

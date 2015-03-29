@@ -29,6 +29,7 @@ struct SingleTask {
     virtual void run() = 0;
     virtual const char* keyName() const = 0;
     virtual const char* fullName() const = 0;
+    virtual ~SingleTask() {}
 };
 
 #define BENCH_TASK_GEN(name,fullNameL,clNameL,valName,code) \
@@ -89,6 +90,7 @@ public:
     templatious::VCollection< SingleTask* > taskHandle();
 
     Benchmark(TimeResolution* ptr,int rep,const char* key,const char* fullName);
+    ~Benchmark();
 
     void run();
 

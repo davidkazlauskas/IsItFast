@@ -43,6 +43,12 @@ namespace IsItFast {
     {
     }
 
+    Benchmark::~Benchmark() {
+        TEMPLATIOUS_FOREACH(auto i,_tasks) {
+            delete i;
+        }
+    }
+
     templatious::VCollection< const ResNode > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
             templatious::AP_THROW,

@@ -41,6 +41,8 @@ namespace IsItFast {
         auto h = add.taskHandle();
         SA::add(h,ad);
 
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
         return true;
     }
 

@@ -125,11 +125,13 @@ namespace IsItFast {
 
     static ChronoHighResolution s_chl = ChronoHighResolution();
 
+    TimeResolution* TimeResolutionFactory::s_curr =
+        TimeResolutionFactory::get(TimeResolutionFactory::CURR_RESOLUTION);
+
     TimeResolution* TimeResolutionFactory::get(int i) {
         if (i == CHRONO_HIGH_RESOLUTION) {
             return &s_chl;
         }
         return nullptr;
     }
-
 }

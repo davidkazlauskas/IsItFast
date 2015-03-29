@@ -20,7 +20,8 @@
 
 namespace IsItFast {
     bool addBenchmarks() {
-        Benchmark add();
+        TimeResolution* tr = TimeResolutionFactory::s_curr;
+        Benchmark add(tr,50,"SA_add","");
 
         return true;
     }

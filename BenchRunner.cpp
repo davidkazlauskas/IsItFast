@@ -43,11 +43,7 @@ namespace IsItFast {
     {
     }
 
-    Benchmark::~Benchmark() {
-        TEMPLATIOUS_FOREACH(auto i,_tasks) {
-            delete i;
-        }
-    }
+    Benchmark::~Benchmark() {}
 
     templatious::VCollection< const ResNode > Benchmark::getTimes() const {
         return SF::vcollectionCustom<
@@ -59,16 +55,6 @@ namespace IsItFast {
         >(this->_times);
     }
 
-    templatious::VCollection< SingleTask* > Benchmark::taskHandle() {
-        return SF::vcollectionCustom<
-            templatious::AP_ENABLED,
-            templatious::CP_THROW,
-            templatious::TP_THROW,
-            templatious::ACP_THROW,
-            templatious::SP_ENABLED
-        >(this->_tasks);
-    }
-
     void Benchmark::run() {
         assert(!_isRun);
         _isRun = true;
@@ -77,17 +63,21 @@ namespace IsItFast {
             long sum = 0;
             TEMPLATIOUS_REPEAT( _repetition ) {
                 long start = _resStrat->resolve();
-                i->run();
+                i._f();
                 long end = _resStrat->resolve();
                 long diff = end - start;
                 sum += diff;
             }
 
             ResNode r(sum,_repetition,
-                i->keyName(),i->fullName());
+                i._keyName.c_str(),i._fullName.c_str());
 
             SA::add(_times,std::move(r));
         }
+    }
+
+    void Benchmark::addTask(const char* key,const char* full,FnType t) {
+        SA::add(_tasks,SingleTask(key,full,t));
     }
 
     void BenchCollection::runAll() {

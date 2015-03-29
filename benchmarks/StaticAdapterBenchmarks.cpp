@@ -26,28 +26,21 @@ namespace IsItFast {
         Benchmark add(tr,50,"SA_add","Addition to vector with"
                 "templatious and with default method.");
 
-        BENCH_TASK_GEN( AdditionDefault,
-                "addition_default",
-                "Add to vector 100000 elements",
-            ad_d, {
-            std::vector<int> v;
-            for (int i = 0; i < 100000; ++i) {
-                v.push_back(i);
+        add.addTask("addition_default","Default addition",
+            []() {
+                std::vector<int> v;
+                for (int i = 0; i < 100000; ++i) {
+                    v.push_back(i);
+                }
             }
-        });
+        );
 
-        BENCH_TASK_GEN( AdditionTemplatious,
-                "addition_templatious",
-                "Add to vector 100000 elements",
-            ad_t, {
-            std::vector<int> v;
-            SA::add(v,SF::seqL(100000));
-        });
-
-
-        // ad
-        auto h = add.taskHandle();
-        SA::add(h,ad_d,ad_t);
+        add.addTask("addition_templatious","Default addition",
+            []() {
+                std::vector<int> v;
+                SA::add(v,SF::seqL(100000));
+            }
+        );
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

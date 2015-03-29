@@ -41,7 +41,13 @@ struct TimeResolutionFactory {
     };
 
     static TimeResolution* get(int i);
+
+    static const int CURR_RESOLUTION = CHRONO_HIGH_RESOLUTION;
+    static const TimeResolution* s_curr;
 };
+
+const TimeResolution* TimeResolutionFactory::s_curr =
+    TimeResolutionFactory::get(TimeResolutionFactory::CURR_RESOLUTION);
 
 struct ResNode {
     ResNode(long f,long c,const char* k,const char* fname) :

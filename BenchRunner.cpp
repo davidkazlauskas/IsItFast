@@ -37,6 +37,7 @@ namespace IsItFast {
         _resStrat(other._resStrat),
         _repetition(other._repetition),
         _isRun(other._isRun),
+        _tasks(std::move(other._tasks)),
         _keyName(other._keyName),
         _fullName(other._fullName)
     {

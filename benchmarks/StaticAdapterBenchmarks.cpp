@@ -18,9 +18,10 @@
 
 #include "../BenchRunner.hpp"
 
-namespace {
-
+namespace IsItFast {
     bool addBenchmarks() {
+        Benchmark add();
+
         return true;
     }
 

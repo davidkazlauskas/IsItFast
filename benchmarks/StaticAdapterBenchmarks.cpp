@@ -47,7 +47,7 @@ namespace IsItFast {
                 SA::add(vec,SF::seqL(N_NUM));
             };
 
-        add.addTask("PADDING_DOESN_COUNT",
+        add.addTask("PADDING_DOESNT_COUNT",
                 "Padding (first is slowest)",defAdd);
 
         add.addTask("addition_default",

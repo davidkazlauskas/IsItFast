@@ -29,17 +29,25 @@ namespace IsItFast {
         BENCH_TASK_GEN( AdditionDefault,
                 "addition_default",
                 "Add to vector 100000 elements",
-            ad, {
+            ad_d, {
             std::vector<int> v;
             for (int i = 0; i < 100000; ++i) {
                 v.push_back(i);
             }
         });
 
+        BENCH_TASK_GEN( AdditionTemplatious,
+                "addition_templatious",
+                "Add to vector 100000 elements",
+            ad_t, {
+            std::vector<int> v;
+            SA::add(v,SF::seqL(100000));
+        });
+
 
         // ad
         auto h = add.taskHandle();
-        SA::add(h,ad);
+        SA::add(h,ad_d,ad_t);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

@@ -28,10 +28,10 @@ namespace IsItFast {
 
         BENCH_TASK_GEN( AdditionDefault,
                 "addition_default",
-                "Add to vector 1000000 elements",
+                "Add to vector 100000 elements",
             ad, {
             std::vector<int> v;
-            for (int i = 0; i < 1000000; ++i) {
+            for (int i = 0; i < 100000; ++i) {
                 v.push_back(i);
             }
         });

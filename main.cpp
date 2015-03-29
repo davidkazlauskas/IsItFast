@@ -27,13 +27,15 @@ int main(int argc,char* argv[]) {
     r.runAll();
 
     std::string full;
+    std::string sName;
     double avgTime;
 
-    auto p = SF::pack("Name: ",full,"; Time: ",avgTime,"\n");
+    auto p = SF::pack("Short Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"\n");
     auto sf = SF::streamOutFunctor(std::cout);
 
     TEMPLATIOUS_FOREACH(auto& i,r.viewResults()) {
         TEMPLATIOUS_FOREACH(auto& j,i.getTimes()) {
+            sName = j._key;
             full = j._fullName;
             avgTime = j._avg;
 

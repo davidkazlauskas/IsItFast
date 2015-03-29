@@ -18,6 +18,8 @@
 
 #include "../BenchRunner.hpp"
 
+TEMPLATIOUS_TRIPLET_STD;
+
 namespace IsItFast {
     bool addBenchmarks() {
         TimeResolution* tr = TimeResolutionFactory::s_curr;
@@ -26,10 +28,18 @@ namespace IsItFast {
 
         BENCH_TASK_GEN( AdditionDefault,
                 "addition_default",
-                "Add to vector 10000000 elements",
+                "Add to vector 1000000 elements",
             ad, {
-
+            std::vector<int> v;
+            for (int i = 0; i < 1000000; ++i) {
+                v.push_back(i);
+            }
         });
+
+
+        // ad
+        auto h = add.taskHandle();
+        SA::add(h,ad);
 
         return true;
     }

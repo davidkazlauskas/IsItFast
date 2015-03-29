@@ -32,7 +32,7 @@ struct SingleTask {
 };
 
 #define BENCH_TASK_GEN(name,fullNameL,clNameL,valName,code) \
-    struct name {\
+    struct name : public SingleTask {\
         name(const char* sn,const char* fn) :\
             _shortName(sn), _fullName(fn) {}\
 \
@@ -52,7 +52,7 @@ struct SingleTask {
         std::string _fullName;\
     };\
 \
-    name valName(fullNameL,clNameL);
+    name* valName = new name(fullNameL,clNameL);
 
 struct TimeResolution {
     virtual long resolve() = 0;

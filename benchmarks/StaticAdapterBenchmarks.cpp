@@ -54,7 +54,7 @@ namespace IsItFast {
         add.addTask("BOILERPLATE",
                 "Default addition",defAdd);
 
-        add.addTask("addition_templatious",
+        add.addTask("templatious",
                 "Default addition",tempAdd);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
@@ -97,10 +97,17 @@ namespace IsItFast {
             []() {
                 volatile long sum =
                     SM::sum<int>(SF::seqL(N_NUM));
+                return sum;
             };
 
         add.addTask("BOILERPLATE","Default summing",
             boiler);
+        add.addTask("templatious_a","TEMPLATIOUS_FOREACH macro",
+            tempA);
+        add.addTask("templatious_b","SM::forEach",
+            tempB);
+        add.addTask("templatious_c","SM::sum",
+            tempC);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

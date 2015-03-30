@@ -24,4 +24,9 @@ namespace {
 
 namespace IsItFast {
 
+    bool ifSelectCpy() {
+        return true;
+    }
+
+    static bool didAdd = ifSelectCpy();
 }

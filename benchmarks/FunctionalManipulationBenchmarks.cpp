@@ -47,11 +47,16 @@ namespace IsItFast {
         };
 
         auto temp = [sptr]() {
-            double sum = 0;
-            sum += SM::sum<double>(
-                SF::select(SF::skip(*sptr,7),
-                [](int i) -> double { return i * 7; })
-            );
+            volatile double sum = 0;
+            auto sel =
+                SF::select(
+                    SF::skip(*sptr,7),
+                    [](int i) -> double { return i * 7; }
+                );
+
+            TEMPLATIOUS_FOREACH(auto i,sel) {
+                sum += i;
+            }
         };
 
         add.addTask("PADDING","PADDING",boiler);

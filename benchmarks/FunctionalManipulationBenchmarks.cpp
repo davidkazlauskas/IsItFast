@@ -36,17 +36,29 @@ namespace IsItFast {
         auto boiler = [sptr]() {
             volatile double sum = 0;
 
-            int len = sptr->size();
+            auto& vecRef = *sptr;
+            int len = vecRef.size();
             for (int i = 0; i < len; ++i)
             {
                 if (i % 7 == 0) {
-                    sum += sptr->at(i) * 7;
+                    sum += vecRef[i] * 7;
                 }
             }
         };
 
+        auto temp = [sptr]() {
+            double sum = 0;
+            sum += SM::sum<double>(
+                SF::select(SF::skip(*sptr,7),
+                [](int i) -> double { return i * 7; })
+            );
+        };
+
+        add.addTask("PADDING","PADDING",boiler);
         add.addTask("BOILERPLATE","Imperative version",
             boiler);
+        add.addTask("templattious_select","Templatious version",
+            temp);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
         return true;

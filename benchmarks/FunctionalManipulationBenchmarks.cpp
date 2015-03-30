@@ -38,11 +38,9 @@ namespace IsItFast {
 
             auto& vecRef = *sptr;
             int len = vecRef.size();
-            for (int i = 0; i < len; ++i)
+            for (int i = 0; i < len; i += 7)
             {
-                if (i % 7 == 0) {
-                    sum += vecRef[i] * 7;
-                }
+                sum += vecRef[i] * 7;
             }
         };
 

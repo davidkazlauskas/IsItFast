@@ -20,8 +20,11 @@
 
 TEMPLATIOUS_TRIPLET_STD;
 
+namespace {
+    IsItFast::TimeResolution* tr = IsItFast::TimeResolutionFactory::s_curr;
+}
+
 namespace IsItFast {
-    TimeResolution* tr = TimeResolutionFactory::s_curr;
 
     bool staticAdapterAdd() {
         Benchmark add(tr,50,"SA_add","Addition to vector with"

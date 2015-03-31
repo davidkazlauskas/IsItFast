@@ -144,14 +144,36 @@ namespace IsItFast {
             ++sum;
         };
 
+        auto vectAlg = [sptr]() {
+            volatile int sum = 0;
+
+            int a,b,c,d,e;
+            SM::set(0,a,b,c,d,e);
+
+            auto& ref = *sptr;
+            TEMPLATIOUS_REPEAT( 1000 ) {
+                a = ref[0]; // 2
+                b = ref[1]; // 6
+                c = ref[3]; // 12
+                d = ref[6]; // 16
+                e = ref[7]; // 21
+
+                sum = a + b + c + d + e;
+            }
+
+            ++sum;
+        };
+
+
         auto tempAlg = [sptr]() {
             volatile int sum = 0;
 
             int a,b,c,d,e;
             SM::set(0,a,b,c,d,e);
 
+            auto& ref = *sptr;
             TEMPLATIOUS_REPEAT( 1000 ) {
-                SM::distribute(*sptr,
+                SM::distribute(ref,
                     a,
                     b,
                     SF::dummyVar<1>(),
@@ -166,8 +188,10 @@ namespace IsItFast {
             ++sum;
         };
 
-        add.addTask("BOILERPLATE",
-            "Boilerplate assignment",boilAlg);
+        add.addTask("DIRECT",
+            "Direct pointer manipulation",boilAlg);
+        add.addTask("VECTOR",
+            "Vector assigment",vectAlg);
         add.addTask("templatious",
             "Templatious assignment",tempAlg);
 

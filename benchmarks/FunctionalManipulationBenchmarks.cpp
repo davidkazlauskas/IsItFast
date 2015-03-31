@@ -60,7 +60,7 @@ namespace IsItFast {
         add.addTask("PADDING","PADDING",boiler);
         add.addTask("BOILERPLATE","Imperative version",
             boiler);
-        add.addTask("templattious_select","Templatious version",
+        add.addTask("templatious_select","Templatious version",
             temp);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
@@ -83,6 +83,8 @@ namespace IsItFast {
                 [](int i) { return i % 7 != 0; });
 
             ref.erase(res,ref.end());
+            volatile int sum = SM::sum<int>(ref);
+            ++sum;
         };
 
         auto tempAlg = [sptr]() {
@@ -93,14 +95,17 @@ namespace IsItFast {
 
             SA::clear(SF::filter(ref,
                 [](int i) { return i % 7 != 0; }));
+
+            volatile int sum = SM::sum<int>(ref);
+            ++sum;
         };
 
         add.addTask("PADDING",
             "Padding",stlAlg);
-        add.addTask("templatious",
-            "Use templatious filter to erase",tempAlg);
         add.addTask("STL_ALGORITHM",
             "Use STL algorithm to erase",stlAlg);
+        add.addTask("templatious",
+            "Use templatious filter to erase",tempAlg);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

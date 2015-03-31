@@ -85,6 +85,16 @@ namespace IsItFast {
             ref.erase(res,ref.end());
         };
 
+        auto tempAlg = [sptr]() {
+            auto& ref = *sptr;
+
+            SA::clear(ref);
+            SA::add(ref,SF::seqL(10000));
+
+            SA::clear(SF::filter(ref,
+                [](int i) { return i % 7 == 0; }));
+        };
+
         return true;
     }
 

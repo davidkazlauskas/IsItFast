@@ -68,8 +68,8 @@ namespace IsItFast {
     }
 
     bool filterOutVector() {
-        Benchmark add(tr,50,"filter-select","Traverse select some"
-            " integers.");
+        Benchmark add(tr,500,"filter-remove","Erase elements"
+            " from vector.");
 
         auto sptr = std::make_shared< std::vector<int> >();
         sptr->reserve(10000);
@@ -92,15 +92,15 @@ namespace IsItFast {
             SA::add(ref,SF::seqL(10000));
 
             SA::clear(SF::filter(ref,
-                [](int i) { return i % 7 == 0; }));
+                [](int i) { return i % 7 != 0; }));
         };
 
         add.addTask("PADDING",
             "Padding",stlAlg);
-        add.addTask("STL_ALGORITHM",
-            "Use STL algorithm to erase",stlAlg);
         add.addTask("templatious",
             "Use templatious filter to erase",tempAlg);
+        add.addTask("STL_ALGORITHM",
+            "Use STL algorithm to erase",stlAlg);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

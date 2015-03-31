@@ -68,40 +68,39 @@ namespace IsItFast {
     }
 
     bool filterOutVector() {
-        Benchmark add(tr,500,"filter-remove","Erase elements"
+        Benchmark add(tr,5000,"filter-remove","Erase elements"
             " from vector.");
 
         auto sptr = std::make_shared< std::vector<int> >();
         sptr->reserve(10000);
 
-        auto stlAlg = [sptr]() {
+        auto condLambda =
+            [](int i) { return i % 7 != 0; };
+
+        auto stlAlg = [condLambda,sptr]() {
             auto& ref = *sptr;
             ref.clear();
             SA::add(ref,SF::seqL(10000));
 
-            auto res = std::remove_if(ref.begin(),ref.end(),
-                [](int i) { return i % 7 != 0; });
+            auto res = std::remove_if(ref.begin(),ref.end(),condLambda);
 
             ref.erase(res,ref.end());
             volatile int sum = SM::sum<int>(ref);
             ++sum;
         };
 
-        auto tempAlg = [sptr]() {
+        auto tempAlg = [condLambda,sptr]() {
             auto& ref = *sptr;
 
             SA::clear(ref);
             SA::add(ref,SF::seqL(10000));
 
-            SA::clear(SF::filter(ref,
-                [](int i) { return i % 7 != 0; }));
+            SA::clear(SF::filter(ref,condLambda));
 
             volatile int sum = SM::sum<int>(ref);
             ++sum;
         };
 
-        add.addTask("PADDING",
-            "Padding",stlAlg);
         add.addTask("STL_ALGORITHM",
             "Use STL algorithm to erase",stlAlg);
         add.addTask("templatious",

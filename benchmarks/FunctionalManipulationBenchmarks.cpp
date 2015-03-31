@@ -95,6 +95,15 @@ namespace IsItFast {
                 [](int i) { return i % 7 == 0; }));
         };
 
+        add.addTask("PADDING",
+            "Padding",stlAlg);
+        add.addTask("STL_ALGORITHM",
+            "Use STL algorithm to erase",stlAlg);
+        add.addTask("templatious",
+            "Use templatious filter to erase",tempAlg);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
         return true;
     }
 

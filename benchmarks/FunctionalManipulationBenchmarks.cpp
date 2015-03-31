@@ -125,7 +125,7 @@ namespace IsItFast {
             SM::set(0,a,b,c,d,e);
 
             int* datOrig = sptr->data();
-            TEMPLATIOUS_REPEAT( 1000 ) {
+            TEMPLATIOUS_REPEAT( 10000 ) {
                 int* dat = datOrig;
 
                 a = *dat; // 2
@@ -151,7 +151,7 @@ namespace IsItFast {
             SM::set(0,a,b,c,d,e);
 
             auto& ref = *sptr;
-            TEMPLATIOUS_REPEAT( 1000 ) {
+            TEMPLATIOUS_REPEAT( 10000 ) {
                 a = ref[0]; // 2
                 b = ref[1]; // 6
                 c = ref[3]; // 12
@@ -172,7 +172,7 @@ namespace IsItFast {
             SM::set(0,a,b,c,d,e);
 
             auto& ref = *sptr;
-            TEMPLATIOUS_REPEAT( 1000 ) {
+            TEMPLATIOUS_REPEAT( 10000 ) {
                 SM::distribute(ref,
                     a,
                     b,

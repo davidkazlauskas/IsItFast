@@ -112,7 +112,7 @@ namespace IsItFast {
     }
 
     bool distributionBenchmark() {
-        Benchmark add(tr,5000,"distribution",
+        Benchmark add(tr,5000000,"distribution",
             "Distribute elements");
 
         auto sptr = std::make_shared< std::vector<int> >();
@@ -123,7 +123,7 @@ namespace IsItFast {
 
             volatile int sum = 0;
 
-            volatile int a,b,c,d,e;
+            int a,b,c,d,e;
 
             a = *dat; // 2
             ++dat;
@@ -141,18 +141,16 @@ namespace IsItFast {
         };
 
         auto tempAlg = [sptr]() {
-            int* dat = sptr->data();
-
             volatile int sum = 0;
 
-            volatile int a,b,c,d,e;
+            int a,b,c,d,e;
 
-            SM::distribute(*sptr,a,
-                SF::dummyVar()
+            SM::distribute(*sptr,
+                a,
                 b,
-                SF::dummyVar<2>(),
+                SF::dummyVar<1>(),
                 c,
-                SF::dummyVar<3>(),
+                SF::dummyVar<2>(),
                 d,
                 e);
 
@@ -160,9 +158,19 @@ namespace IsItFast {
 
             ++sum;
         };
+
+        add.addTask("BOILERPLATE",
+            "Boilerplate assignment",boilAlg);
+        add.addTask("templatious",
+            "Templatious assignment",tempAlg);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
     }
 
     static bool didAdd =
         ifSelectCpy()
-        && filterOutVector();
+        && filterOutVector()
+        && distributionBenchmark();
 }

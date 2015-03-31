@@ -111,6 +111,57 @@ namespace IsItFast {
         return true;
     }
 
+    bool distributionBenchmark() {
+        Benchmark add(tr,5000,"distribution",
+            "Distribute elements");
+
+        auto sptr = std::make_shared< std::vector<int> >();
+        SA::add(*sptr,2,4,57,6,5,3,4,5);
+
+        auto boilAlg = [sptr]() {
+            int* dat = sptr->data();
+
+            volatile int sum = 0;
+
+            volatile int a,b,c,d,e;
+
+            a = *dat; // 2
+            ++dat;
+            b = *dat; // 6
+            dat += 2;
+            c = *dat; // 12
+            dat += 3;
+            d = *dat; // 16
+            ++dat;
+            e = *dat;
+
+            sum = a + b + c + d + e;
+
+            ++sum;
+        };
+
+        auto tempAlg = [sptr]() {
+            int* dat = sptr->data();
+
+            volatile int sum = 0;
+
+            volatile int a,b,c,d,e;
+
+            SM::distribute(*sptr,a,
+                SF::dummyVar()
+                b,
+                SF::dummyVar<2>(),
+                c,
+                SF::dummyVar<3>(),
+                d,
+                e);
+
+            sum = a + b + c + d + e;
+
+            ++sum;
+        };
+    }
+
     static bool didAdd =
         ifSelectCpy()
         && filterOutVector();

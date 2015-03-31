@@ -17,10 +17,10 @@ ADD_DEFINITIONS(
     -Wall
     -x c++
     -g
-    -O2
+    -O3
 )
 
 #SET( SET_CMAKE_CXX_COMPILER "g++-4.8" )
-SET( SET_CMAKE_CXX_COMPILER "clang++-3.5" )
+SET( CMAKE_CXX_COMPILER "clang++-3.5" )
 
 SET( CMAKE_EXPORT_COMPILE_COMMANDS ON )

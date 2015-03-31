@@ -2,3 +2,6 @@
 Where templatious sucks (now):
     functional manipulation benchmarks -> filterOutVector
 
+Slow because it is safe:
+    functional manipulation benchmarks -> distributionBenchmark
+

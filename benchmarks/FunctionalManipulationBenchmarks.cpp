@@ -112,30 +112,34 @@ namespace IsItFast {
     }
 
     bool distributionBenchmark() {
-        Benchmark add(tr,5000000,"distribution",
+        Benchmark add(tr,5000,"distribution",
             "Distribute elements");
 
         auto sptr = std::make_shared< std::vector<int> >();
         SA::add(*sptr,2,4,57,6,5,3,4,5);
 
         auto boilAlg = [sptr]() {
-            int* dat = sptr->data();
-
             volatile int sum = 0;
 
             int a,b,c,d,e;
+            SM::set(0,a,b,c,d,e);
 
-            a = *dat; // 2
-            ++dat;
-            b = *dat; // 6
-            dat += 2;
-            c = *dat; // 12
-            dat += 3;
-            d = *dat; // 16
-            ++dat;
-            e = *dat;
+            int* datOrig = sptr->data();
+            TEMPLATIOUS_REPEAT( 1000 ) {
+                int* dat = datOrig;
 
-            sum = a + b + c + d + e;
+                a = *dat; // 2
+                ++dat;
+                b = *dat; // 6
+                dat += 2;
+                c = *dat; // 12
+                dat += 3;
+                d = *dat; // 16
+                ++dat;
+                e = *dat;
+
+                sum = a + b + c + d + e;
+            }
 
             ++sum;
         };
@@ -144,17 +148,20 @@ namespace IsItFast {
             volatile int sum = 0;
 
             int a,b,c,d,e;
+            SM::set(0,a,b,c,d,e);
 
-            SM::distribute(*sptr,
-                a,
-                b,
-                SF::dummyVar<1>(),
-                c,
-                SF::dummyVar<2>(),
-                d,
-                e);
+            TEMPLATIOUS_REPEAT( 1000 ) {
+                SM::distribute(*sptr,
+                    a,
+                    b,
+                    SF::dummyVar<1>(),
+                    c,
+                    SF::dummyVar<2>(),
+                    d,
+                    e);
 
-            sum = a + b + c + d + e;
+                sum = a + b + c + d + e;
+            }
 
             ++sum;
         };

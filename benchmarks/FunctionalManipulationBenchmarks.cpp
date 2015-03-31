@@ -67,5 +67,28 @@ namespace IsItFast {
         return true;
     }
 
-    static bool didAdd = ifSelectCpy();
+    bool filterOutVector() {
+        Benchmark add(tr,50,"filter-select","Traverse select some"
+            " integers.");
+
+        auto sptr = std::make_shared< std::vector<int> >();
+        sptr->reserve(10000);
+
+        auto stlAlg = [sptr]() {
+            auto& ref = *sptr;
+            ref.clear();
+            SA::add(ref,SF::seqL(10000));
+
+            auto res = std::remove_if(ref.begin(),ref.end(),
+                [](int i) { return i % 7 != 0; });
+
+            ref.erase(res,ref.end());
+        };
+
+        return true;
+    }
+
+    static bool didAdd =
+        ifSelectCpy()
+        && filterOutVector();
 }

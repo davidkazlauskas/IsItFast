@@ -1,0 +1,4 @@
+
+Where templatious sucks (now):
+    functional manipulation benchmarks -> filterOutVector
+

@@ -249,11 +249,11 @@ namespace IsItFast {
         return true;
     }
 
-    bool nestedLoopingNormalBenchmark() {
+    bool nestedLoopingBenchmark() {
         Benchmark add(tr,50,"looping_nested",
-            "3 nested loops 0 until 500.");
+            "3 nested loops 0 until 100.");
 
-        const int ROUNDS = 500;
+        const int ROUNDS = 100;
         auto loopBoiler = [=]() {
             volatile int sum = 0;
 
@@ -305,5 +305,6 @@ namespace IsItFast {
         ifSelectCpy()
         && filterOutVector()
         && distributionBenchmark()
-        && loopingNormalBenchmark();
+        && loopingNormalBenchmark()
+        && nestedLoopingBenchmark();
 }

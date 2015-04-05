@@ -249,6 +249,58 @@ namespace IsItFast {
         return true;
     }
 
+    bool nestedLoopingNormalBenchmark() {
+        Benchmark add(tr,50,"looping_nested",
+            "3 nested loops 0 until 500.");
+
+        const int ROUNDS = 500;
+        auto loopBoiler = [=]() {
+            volatile int sum = 0;
+
+            for (int i = 0; i < ROUNDS; ++i) {
+                for (int j = 0; j < ROUNDS; ++j) {
+                    for (int k = 0; k < ROUNDS; ++k) {
+                        sum += i + j + k;
+                    }
+                }
+            }
+        };
+
+        auto tempLoop1 = [=]() {
+            volatile int sum = 0;
+
+            auto s = SF::seqL(ROUNDS);
+
+            TEMPLATIOUS_FOREACH(int i,s) {
+                TEMPLATIOUS_FOREACH(int j,s) {
+                    TEMPLATIOUS_FOREACH(int k,s) {
+                        sum += i + j + k;
+                    }
+                }
+            }
+        };
+
+        auto tempLoop2 = [=]() {
+            volatile int sum = 0;
+
+            auto seq = SF::seqL(ROUNDS);
+            SM::quadro([&](int i,int j,int k) {
+                sum += i + j + k;
+            },seq,seq,seq);
+        };
+
+        add.addTask("LOOP_BOILER",
+            "Simple boilerplate looping",loopBoiler);
+        add.addTask("templatious",
+            "Templatious loop v1 (FOREACH macro)",tempLoop1);
+        add.addTask("templatious",
+            "Templatious loop v2 (quadro function)",tempLoop2);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
+    }
+
     static bool didAdd =
         ifSelectCpy()
         && filterOutVector()

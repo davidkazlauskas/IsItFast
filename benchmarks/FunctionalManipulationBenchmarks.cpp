@@ -200,8 +200,38 @@ namespace IsItFast {
         return true;
     }
 
+    bool loopingNormalBenchmark() {
+        Benchmark add(tr,50,"looping_simple",
+            "Simple loop 0 until 1000000");
+
+        const int ROUNDS = 1000000;
+        auto loopBoiler = [=]() {
+            volatile int sum = 0;
+
+            for (int i = 0; i < ROUNDS; ++i) {
+                sum += i;
+            }
+        };
+
+        auto tempLoop1 = [=]() {
+            volatile int sum = 0;
+
+            sum += SM::sum<int>(SF::seqL(ROUNDS));
+        };
+
+        add.addTask("LOOP_BOILER",
+            "Simple boilerplate looping",loopBoiler);
+        add.addTask("templatious",
+            "Templatious sum v1",tempLoop1);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
+    }
+
     static bool didAdd =
         ifSelectCpy()
         && filterOutVector()
-        && distributionBenchmark();
+        && distributionBenchmark()
+        && loopingNormalBenchmark();
 }

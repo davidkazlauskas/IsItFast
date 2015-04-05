@@ -23,8 +23,29 @@
 
 TEMPLATIOUS_TRIPLET_STD;
 
+static auto toJson = SF::matchFunctor(
+    SF::matchLoose<std::ostream,std::string,const char*>(
+        [](std::ostream& o,const std::string& s,const char* key) {
+            auto sf = SF::streamOutFunctor(o);
+            sf('"',key,'"',':','"',s,'"');
+        }
+    ),
+    SF::matchLoose<std::ostream,double,const char*>(
+        [](std::ostream& o,double d,const char* key) {
+            auto sf = SF::streamOutFunctor(o);
+            sf('"',key,'"',':',' ',d);
+        }
+    ),
+);
+
 void jsonResults(IsItFast::BenchCollection& r) {
     std::ofstream ostr;
+
+    double time = 0;
+    std::string shortName;
+    std::string longName;
+
+    //auto namePair = SF::pack('"',"",'"')
 }
 
 void printOutResults(IsItFast::BenchCollection& r) {

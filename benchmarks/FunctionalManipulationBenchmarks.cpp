@@ -219,10 +219,21 @@ namespace IsItFast {
             sum += SM::sum<int>(SF::seqL(ROUNDS));
         };
 
+        auto tempLoop2 = [=]() {
+            volatile int sum = 0;
+
+            auto seq = SF::seqL(ROUNDS);
+            TEMPLATIOUS_FOREACH(int i,seq) {
+                sum += i;
+            }
+        };
+
         add.addTask("LOOP_BOILER",
             "Simple boilerplate looping",loopBoiler);
         add.addTask("templatious",
-            "Templatious sum v1",tempLoop1);
+            "Templatious sum v1 (spec func)",tempLoop1);
+        add.addTask("templatious",
+            "Templatious sum v2 (FOREACH macro)",tempLoop2);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

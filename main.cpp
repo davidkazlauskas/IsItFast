@@ -16,6 +16,7 @@
  * =====================================================================================
  */
 
+#include <cstring>
 #include <iostream>
 #include <fstream>
 
@@ -42,6 +43,9 @@ static auto toJsonTimeNode = SF::matchFunctor(
     SF::matchLoose<std::ostream,const IsItFast::ResNode,const char*>(
         [](std::ostream& o,const IsItFast::ResNode& rn,const char* key) {
             auto sf = SF::streamOutFunctor(o);
+            if (strlen(key) != 0) {
+                sf('"',key,"\":");
+            }
             sf("{");
             toJsonPrimitives(o,rn._key,"name");
             sf(",");
@@ -63,11 +67,13 @@ static auto toJson = SF::matchFunctor(
             toJsonPrimitives(o,b.keyName(),"name");
             sf(",");
             toJsonPrimitives(o,b.fullName(),"full_name");
-            sf(",{ times: ");
+            sf(",{ times: [");
 
             auto times = b.getTimes();
+            auto beg = SA::begin(times);
+            toJsonTimeNode(o,*beg,"");
 
-            sf(" }");
+            sf("]}");
         }
     )
 );
@@ -75,7 +81,6 @@ static auto toJson = SF::matchFunctor(
 void jsonResults(IsItFast::BenchCollection& r) {
     std::ofstream ostr;
 
-    double time = 0;
     std::string shortName;
     std::string longName;
 

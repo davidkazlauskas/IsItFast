@@ -23,7 +23,7 @@
 
 TEMPLATIOUS_TRIPLET_STD;
 
-static auto toJson = SF::matchFunctor(
+static auto toJsonPrimitives = SF::matchFunctor(
     SF::matchLoose<std::ostream,std::string,const char*>(
         [](std::ostream& o,const std::string& s,const char* key) {
             auto sf = SF::streamOutFunctor(o);
@@ -35,7 +35,16 @@ static auto toJson = SF::matchFunctor(
             auto sf = SF::streamOutFunctor(o);
             sf('"',key,'"',':',' ',d);
         }
-    ),
+    )
+);
+
+static auto toJson = SF::matchFunctor(
+    toJsonPrimitives,
+    SF::matchLoose<std::ostream,const IsItFast::Benchmark,const char*>(
+        [](std::ostream& o,const IsItFast::Benchmark& b,const char* key) {
+            auto sf = SF::streamOutFunctor(o);
+        }
+    )
 );
 
 void jsonResults(IsItFast::BenchCollection& r) {
@@ -45,7 +54,10 @@ void jsonResults(IsItFast::BenchCollection& r) {
     std::string shortName;
     std::string longName;
 
-    //auto namePair = SF::pack('"',"",'"')
+    auto res = r.viewResults();
+    TEMPLATIOUS_FOREACH(auto& i,res) {
+        toJson(ostr,i,"benchmarks");
+    }
 }
 
 void printOutResults(IsItFast::BenchCollection& r) {

@@ -77,6 +77,7 @@ static auto toJson = SF::matchFunctor(
             while (beg != end) {
                 sf(",");
                 toJsonTimeNode(o,*beg,"");
+                ++beg;
             }
 
             sf("]}");

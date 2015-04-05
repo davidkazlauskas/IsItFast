@@ -78,8 +78,8 @@ static auto toJson = SF::matchFunctor(
     )
 );
 
-void jsonResults(IsItFast::BenchCollection& r) {
-    std::ofstream ostr;
+void jsonResults(IsItFast::BenchCollection& r,const char* filename) {
+    std::ofstream ostr(filename);
 
     std::string shortName;
     std::string longName;
@@ -122,4 +122,5 @@ int main(int argc,char* argv[]) {
     r.runAll();
 
     printOutResults(r);
+    jsonResults(r,"results.json");
 }

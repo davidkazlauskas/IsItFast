@@ -71,7 +71,13 @@ static auto toJson = SF::matchFunctor(
 
             auto times = b.getTimes();
             auto beg = SA::begin(times);
+            auto end = SA::end(times);
             toJsonTimeNode(o,*beg,"");
+            ++beg;
+            while (beg != end) {
+                sf(",");
+                toJsonTimeNode(o,*beg,"");
+            }
 
             sf("]}");
         }
@@ -84,10 +90,19 @@ void jsonResults(IsItFast::BenchCollection& r,const char* filename) {
     std::string shortName;
     std::string longName;
 
+    auto sf = SF::streamOutFunctor(ostr);
     auto res = r.viewResults();
-    TEMPLATIOUS_FOREACH(auto& i,res) {
-        toJson(ostr,i,"benchmarks");
+    auto beg = SA::begin(res);
+    auto end = SA::end(res);
+    sf("{ \"benchmarks\":[");
+    toJson(ostr,*beg,"benchmark");
+    ++beg;
+    while (beg != end) {
+        sf(",");
+        toJson(ostr,*beg,"benchmark");
+        ++beg;
     }
+    sf("]}");
 }
 
 void printOutResults(IsItFast::BenchCollection& r) {

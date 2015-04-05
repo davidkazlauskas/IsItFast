@@ -42,13 +42,20 @@ static auto toJsonTimeNode = SF::matchFunctor(
     SF::matchLoose<std::ostream,const IsItFast::ResNode,const char*>(
         [](std::ostream& o,const IsItFast::ResNode& rn,const char* key) {
             auto sf = SF::streamOutFunctor(o);
-            //sf('"',key,'"',':',' ',d);
+            sf("{");
+            toJsonPrimitives(o,rn._key,"name");
+            sf(",");
+            toJsonPrimitives(o,rn._fullName,"full_name");
+            sf(",");
+            toJsonPrimitives(o,rn._avg,"time");
+            sf("}");
         }
     )
 );
 
 static auto toJson = SF::matchFunctor(
     toJsonPrimitives,
+    toJsonTimeNode,
     SF::matchLoose<std::ostream,const IsItFast::Benchmark,const char*>(
         [](std::ostream& o,const IsItFast::Benchmark& b,const char* key) {
             auto sf = SF::streamOutFunctor(o);

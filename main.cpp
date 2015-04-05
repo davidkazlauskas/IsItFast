@@ -22,10 +22,7 @@
 
 TEMPLATIOUS_TRIPLET_STD;
 
-int main(int argc,char* argv[]) {
-    auto& r = IsItFast::BenchCollection::s_inst;
-    r.runAll();
-
+void printOutResults(IsItFast::BenchCollection& r) {
     auto sf = SF::streamOutFunctor(std::cout);
 
     std::string full;
@@ -50,4 +47,11 @@ int main(int argc,char* argv[]) {
         }
         SM::callEach(sf,tail);
     }
+}
+
+int main(int argc,char* argv[]) {
+    auto& r = IsItFast::BenchCollection::s_inst;
+    r.runAll();
+
+    printOutResults(r);
 }

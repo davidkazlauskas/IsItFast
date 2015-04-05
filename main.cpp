@@ -17,10 +17,15 @@
  */
 
 #include <iostream>
+#include <fstream>
 
 #include "BenchRunner.hpp"
 
 TEMPLATIOUS_TRIPLET_STD;
+
+void jsonResults(IsItFast::BenchCollection& r) {
+    std::ofstream ostr;
+}
 
 void printOutResults(IsItFast::BenchCollection& r) {
     auto sf = SF::streamOutFunctor(std::cout);

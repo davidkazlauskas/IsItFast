@@ -11,7 +11,6 @@
  *       Compiler:  gcc
  *
  *         Author:  David Kazlauskas (dk), david@templatious.org
- *        Company:  Company and shit
  *
  * =====================================================================================
  */

@@ -1,10 +1,22 @@
 (function() {
+    var findData = function(data,name) {
+        var i,len;
+        len = data.benchmarks.length;
+        for (i = 0; i < len; ++i) {
+            if (data.benchmarks[i].name === name) {
+                return data.benchmarks[i];
+            }
+        }
+
+        return null;
+    }:
+
     var paintGraph = function(data) {
         var barchartData,moreData,ctx;
+        var theData = findData(data,"filter-select");
         barchartData = {
-            labels: data.benchmarks.map(function(i) {
-                alert(i.name);
-                return i.name;
+            labels: theData.times.map(function(i) {
+                return i.full_name;
             }),
             datasets: [
             {
@@ -12,8 +24,8 @@
                 strokeColor: "rgba(0,77,0,0.8)",
                 highlightFill: "rgba(0,255,0,0.8)",
                 highlightStroke: "rgba(0,128,0,0.8)",
-                data: data.benchmarks.map(function(i) {
-                    return 0.77;
+                theData: theData.times.map(function(i) {
+                    return i.time;
                 })
             }]
         };

@@ -1,11 +1,15 @@
 (function() {
+    var paintGraph = function(data) {
+        var barchartData;
+        alert("inner");
+    }
+
     window.initPage = function() {
         return $.ajax('./results.json', {
             type: 'GET',
-            dataType: 'text',
+            dataType: 'json',
             success: function(data, textStatus, jqXHR) {
-                alert('goldn!');
-                var parsed = JSON.parse(data);
+                paintGraph(data);
             },
             failure: function(data, textStatus, jqXHR) {
                 return alert("fail");

@@ -80,7 +80,7 @@ static auto toJson = SF::matchFunctor(
                 ++beg;
             }
 
-            sf("]}");
+            sf("]}}");
         }
     )
 );

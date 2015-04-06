@@ -1,12 +1,11 @@
 (function() {
     window.initPage = function() {
-        return $.ajax('/misc/bench-json', {
+        return $.ajax('./results.json', {
             type: 'GET',
-            dataType: 'json',
+            dataType: 'text',
             success: function(data, textStatus, jqXHR) {
-                paintAvgMilis(data);
-                paintTotHit(data);
-                return paintTotTime(data);
+                alert('goldn!');
+                var parsed = JSON.parse(data);
             },
             failure: function(data, textStatus, jqXHR) {
                 return alert("fail");

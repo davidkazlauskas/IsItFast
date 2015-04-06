@@ -38,15 +38,20 @@
                 strokeColor: "rgba(0,77,0,0.8)",
                 highlightFill: "rgba(0,255,0,0.8)",
                 highlightStroke: "rgba(0,128,0,0.8)",
-                data: [findTime(theData,"BOILERPLATE").time]
-            },
-            {
-                fillColor: "rgba(0,200,0,0.7)",
-                strokeColor: "rgba(0,77,0,0.8)",
-                highlightFill: "rgba(0,255,0,0.8)",
-                highlightStroke: "rgba(0,128,0,0.8)",
-                data: [findTime(theData,"templatious_select").time]
-            }]
+                data: [
+                    findTime(theData,"BOILERPLATE").time,
+                    findTime(theData,"templatious_select").time
+                ]
+            }
+            //,
+            //{
+                //fillColor: "rgba(0,200,0,0.7)",
+                //strokeColor: "rgba(0,77,0,0.8)",
+                //highlightFill: "rgba(0,255,0,0.8)",
+                //highlightStroke: "rgba(0,128,0,0.8)",
+                //data: []
+            //}
+            ]
         };
         moreData = {
             responsive: true

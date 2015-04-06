@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Deividas Kazlauskas (dk), ne-bobu@reikalas.lt
+ *         Author:  David Kazlauskas (dk), david@templatious.org
  *        Company:  Company and shit
  *
  * =====================================================================================

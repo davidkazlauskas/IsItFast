@@ -9,22 +9,21 @@
         }
 
         return null;
-    }:
+    };
 
     var paintGraph = function(data) {
-        var barchartData,moreData,ctx;
-        var theData = findData(data,"filter-select");
+        var barchartData,moreData,ctx,theData;
+        theData = findData(data,"filter-select");
         barchartData = {
             labels: theData.times.map(function(i) {
                 return i.full_name;
             }),
-            datasets: [
-            {
+            datasets: [{
                 fillColor: "rgba(0,200,0,0.7)",
                 strokeColor: "rgba(0,77,0,0.8)",
                 highlightFill: "rgba(0,255,0,0.8)",
                 highlightStroke: "rgba(0,128,0,0.8)",
-                theData: theData.times.map(function(i) {
+                data: theData.times.map(function(i) {
                     return i.time;
                 })
             }]

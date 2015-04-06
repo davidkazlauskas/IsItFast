@@ -11,6 +11,19 @@
         return null;
     };
 
+    var findTime = function(data,name) {
+        var i,len;
+        len = data.times.length;
+
+        for (i = 0; i < len; ++i) {
+            if (data.times[i].name === name) {
+                return data.times[i];
+            }
+        }
+
+        return null;
+    }
+
     var paintGraph = function(data) {
         var barchartData,moreData,ctx,theData;
         theData = findData(data,"filter-select");
@@ -18,14 +31,22 @@
             labels: theData.times.map(function(i) {
                 return i.full_name;
             }),
-            datasets: [{
-                fillColor: "rgba(0,200,0,0.7)",
+            datasets: [
+            //{
+                //fillColor: "rgba(0,200,0,0.7)",
+                //strokeColor: "rgba(0,77,0,0.8)",
+                //highlightFill: "rgba(0,255,0,0.8)",
+                //highlightStroke: "rgba(0,128,0,0.8)",
+                //data: theData.times.map(function(i) {
+                    //return i.time;
+                //})
+            //},
+            {
+                fillColor: "rgba(100,100,100,0.7)",
                 strokeColor: "rgba(0,77,0,0.8)",
                 highlightFill: "rgba(0,255,0,0.8)",
                 highlightStroke: "rgba(0,128,0,0.8)",
-                data: theData.times.map(function(i) {
-                    return i.time;
-                })
+                data: [findTime(theData,"BOILERPLATE").time]
             }]
         };
         moreData = {

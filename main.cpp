@@ -67,7 +67,7 @@ static auto toJson = SF::matchFunctor(
             toJsonPrimitives(o,b.keyName(),"name");
             sf(",");
             toJsonPrimitives(o,b.fullName(),"full_name");
-            sf(",{ \"times\": [");
+            sf(",\"times\": [");
 
             auto times = b.getTimes();
             auto beg = SA::begin(times);
@@ -80,7 +80,7 @@ static auto toJson = SF::matchFunctor(
                 ++beg;
             }
 
-            sf("]}}");
+            sf("]}");
         }
     )
 );

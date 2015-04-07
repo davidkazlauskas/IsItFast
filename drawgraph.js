@@ -66,15 +66,14 @@
     }
 
     var paintGraph = function(data) {
-        var barchartData,moreData,ctx,theData;
-        theData = data;
+        var barchartData,moreData,ctx;
         barchartData = {
             labels: [
                 "Filter select benchmark (filter-select)"
             ],
-            datasets: [ genDataSet(theData.times[0]),
-            genDataSet(theData.times[1]),
-            genDataSet(theData.times[2])
+            datasets: [ genDataSet(data.times[0]),
+            genDataSet(data.times[1]),
+            genDataSet(data.times[2])
             ]
         };
         moreData = {

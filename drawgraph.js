@@ -27,6 +27,35 @@
         return null;
     }
 
+    var getFillColor = function(short_name) {
+        if (short_name.indexOf("templatious") != 0) {
+            return "rgba(0,200,0,0.7)";
+        } else {
+            return "rgba(100,100,100,0.7)";
+        }
+    }
+
+    var getHlFillColor = function(short_name) {
+        if (short_name.indexOf("templatious") != 0) {
+            return "rgba(150,200,150,0.8)";
+        } else {
+            return "rgba(150,150,150,0.8)";
+        }
+    }
+
+    var genDataSet = function(time) {
+        return {
+            label: time.full_name + " [" + time.name + "]",
+            fillColor: getFillColor(time.name),
+            strokeColor: "black",
+            highlightFill: getHlFillColor(time.name),
+            highlightStroke: "black",
+            data: [
+                time.time
+            ]
+        };
+    }
+
     var paintGraph = function(data) {
         var barchartData,moreData,ctx,theData;
         theData = findData(data,"filter-select");

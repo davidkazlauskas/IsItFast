@@ -3,10 +3,27 @@
         <script src="./jquery-1.9.0.min.js"></script>
         <script src="./Chart.min.js"></script>
         <script src="./drawgraph.js"></script>
+        <style>
+        .barchart {
+            margin-left: auto;
+            margin-right: auto;
+            width: 700px;
+            height: 500px;
+        }
+
+        .legend {
+            float: center;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+        </style>
     </head>
     <body onload='initPage();'>
-        <div id="the-graph">
-            <canvas id="bench-canvas" width="600" height="450"></canvas>
+        <div id="filter-select-graph" class="barchart">
+            <canvas id="filter-select-canvas" width="600" height="450"></canvas>
+            <div class="legend" id="filter-select-legend"></div>
         </div>
     </body>
 </html>

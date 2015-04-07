@@ -67,7 +67,7 @@
 
     var paintGraph = function(data) {
         var barchartData,moreData,ctx,theData;
-        theData = findData(data,"filter-select");
+        theData = data;
         barchartData = {
             labels: [
                 "Filter select benchmark (filter-select)"
@@ -94,7 +94,8 @@
             type: 'GET',
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
-                paintGraph(data);
+                //paintGraph(data);
+                paintAll(data);
             },
             failure: function(data, textStatus, jqXHR) {
                 return alert("fail");

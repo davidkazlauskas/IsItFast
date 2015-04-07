@@ -114,10 +114,10 @@
             barDatasetSpacing: 40,
             legendTemplate: legendTemplate
         };
-        ctx = document.getElementById("filter-select-canvas").getContext("2d");
+        ctx = document.getElementById('graph-canvas-'+idx).getContext("2d");
         var chart = new Chart(ctx).Bar(barchartData,moreData);
         window.avgLoad = chart;
-        document.getElementById("filter-select-legend").innerHTML = chart.generateLegend();
+        document.getElementById('graph-legend-'+idx).innerHTML = chart.generateLegend();
     };
 
     window.initPage = function() {

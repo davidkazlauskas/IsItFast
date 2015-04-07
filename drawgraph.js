@@ -66,8 +66,8 @@
         }
         document.getElementById("the-body").innerHTML = genHtml;
 
-        //for (i = 0; i < data.benchmarks.length; ++i) {
-        for (i = 0; i < 1; ++i) {
+        for (i = 0; i < data.benchmarks.length; ++i) {
+        //for (i = 0; i < 1; ++i) {
             paintGraph(data.benchmarks[i],i);
         }
     }

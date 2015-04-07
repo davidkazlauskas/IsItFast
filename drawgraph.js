@@ -60,21 +60,37 @@
         var graphno,i;
         graphno = 0;
 
-        for (i = 0; i < data.benchmarks.length; ++i) {
+        //for (i = 0; i < data.benchmarks.length; ++i) {
+        for (i = 0; i < 1; ++i) {
             paintGraph(data.benchmarks[i]);
         }
     }
 
+    var filterOutPadding = function(data) {
+        return data.times.filter(function(value) {
+            if (value.name.indexOf("PADDING") != -1) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
     var paintGraph = function(data) {
-        var barchartData,moreData,ctx;
+        var barchartData,moreData,ctx,fltData;
+        fltData = filterOutPadding(data);
+        //alert('alive');
         barchartData = {
             labels: [
                 data.full_name + " [" + data.name + "]"
             ],
-            datasets: [ genDataSet(data.times[0]),
-            genDataSet(data.times[1]),
-            genDataSet(data.times[2])
-            ]
+            //datasets: [ genDataSet(data.times[0]),
+            //genDataSet(data.times[1]),
+            //genDataSet(data.times[2])
+            //]
+            datasets: fltData.map(function(value) {
+                return genDataSet(value);
+            })
         };
         moreData = {
             responsive: true,

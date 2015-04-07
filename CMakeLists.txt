@@ -11,6 +11,11 @@ file( GLOB bench_files
 add_executable( a.out main.cpp BenchRunner.cpp
     ${bench_files} )
 
+SET( DISPLAY_HTML view.html drawgraph.js )
+SET( JAVASCRIPT_LIBS jquery-1.9.0.min.js Chart.min.js )
+
+file( COPY ${DISPLAY_HTML} ${JAVASCRIPT_LIBS} DESTINATION ${CMAKE_BINARY_DIR} )
+
 ADD_DEFINITIONS(
     -std=c++11
     -lstdc++

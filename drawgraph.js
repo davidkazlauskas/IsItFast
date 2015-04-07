@@ -56,6 +56,15 @@
         };
     }
 
+    var paintAll = function(data) {
+        var graphno,i;
+        graphno = 0;
+
+        for (i = 0; i < data.benchmarks.length; ++i) {
+            paintGraph(data.benchmarks[i]);
+        }
+    }
+
     var paintGraph = function(data) {
         var barchartData,moreData,ctx,theData;
         theData = findData(data,"filter-select");
@@ -63,17 +72,9 @@
             labels: [
                 "Filter select benchmark (filter-select)"
             ],
-            datasets: [ genDataSet(theData.times[0]) ,
-            {
-                label: "Templatious version",
-                fillColor: "rgba(0,200,0,0.7)",
-                strokeColor: "rgba(0,77,0,0.8)",
-                highlightFill: "rgba(0,255,0,0.8)",
-                highlightStroke: "rgba(0,128,0,0.8)",
-                data: [
-                    findTime(theData,"templatious_select").time
-                ]
-            }
+            datasets: [ genDataSet(theData.times[0]),
+            genDataSet(theData.times[1]),
+            genDataSet(theData.times[2])
             ]
         };
         moreData = {

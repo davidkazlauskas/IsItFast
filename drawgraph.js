@@ -69,7 +69,7 @@
         var barchartData,moreData,ctx;
         barchartData = {
             labels: [
-                "Filter select benchmark (filter-select)"
+                data.full_name + " [" + data.name + "]"
             ],
             datasets: [ genDataSet(data.times[0]),
             genDataSet(data.times[1]),

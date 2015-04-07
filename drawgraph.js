@@ -28,7 +28,7 @@
     }
 
     var getFillColor = function(short_name) {
-        if (short_name.indexOf("templatious") != 0) {
+        if (short_name.indexOf("templatious") != -1) {
             return "rgba(0,200,0,0.7)";
         } else {
             return "rgba(100,100,100,0.7)";
@@ -36,7 +36,7 @@
     }
 
     var getHlFillColor = function(short_name) {
-        if (short_name.indexOf("templatious") != 0) {
+        if (short_name.indexOf("templatious") != -1) {
             return "rgba(150,200,150,0.8)";
         } else {
             return "rgba(150,150,150,0.8)";

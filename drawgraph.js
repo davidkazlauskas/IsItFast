@@ -1,5 +1,4 @@
 (function() {
-    //var legendTemplate = '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>';
     var legendTemplate = '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"><%if(datasets[i].label){%><%}%><%=datasets[i].label%></span></li><%}%></ul>';
 
     var findData = function(data,sName) {
@@ -125,7 +124,6 @@
             type: 'GET',
             dataType: 'json',
             success: function(data, textStatus, jqXHR) {
-                //paintGraph(data);
                 paintAll(data);
             },
             failure: function(data, textStatus, jqXHR) {

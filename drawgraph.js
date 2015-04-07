@@ -60,9 +60,15 @@
         var graphno,i;
         graphno = 0;
 
+        var genHtml = '';
+        for (i = 0; i < data.benchmarks.length; ++i) {
+            genHtml += generateCanvas(i);
+        }
+        document.getElementById("the-body").innerHTML = genHtml;
+
         //for (i = 0; i < data.benchmarks.length; ++i) {
         for (i = 0; i < 1; ++i) {
-            paintGraph(data.benchmarks[i]);
+            paintGraph(data.benchmarks[i],i);
         }
     }
 
@@ -76,18 +82,28 @@
         });
     }
 
-    var paintGraph = function(data) {
+    var generateCanvas = function(id) {
+        var result = '';
+        result += '<div id="graph-div-';
+        result += id;
+        result += '" class="barchart">';
+        result += '<canvas id="graph-canvas-';
+        result += id;
+        result += '" width="600" height="450"></canvas>';
+        result += '<div class="legend" id="graph-legend-';
+        result += id;
+        result += '"></div>';
+        result += '</div>';
+        return result;
+    }
+
+    var paintGraph = function(data,idx) {
         var barchartData,moreData,ctx,fltData;
         fltData = filterOutPadding(data);
-        //alert('alive');
         barchartData = {
             labels: [
                 data.full_name + " [" + data.name + "]"
             ],
-            //datasets: [ genDataSet(data.times[0]),
-            //genDataSet(data.times[1]),
-            //genDataSet(data.times[2])
-            //]
             datasets: fltData.map(function(value) {
                 return genDataSet(value);
             })

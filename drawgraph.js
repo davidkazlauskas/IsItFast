@@ -62,6 +62,9 @@
         var genHtml = '';
         for (i = 0; i < data.benchmarks.length; ++i) {
             genHtml += generateCanvas(i);
+            if (i < data.benchmarks.length - 1) {
+                genHtml += '<hr/>';
+            }
         }
         document.getElementById("the-body").innerHTML = genHtml;
 
@@ -89,6 +92,9 @@
         result += '<canvas id="graph-canvas-';
         result += id;
         result += '" width="600" height="450"></canvas>';
+        result += '<p class="label" id="graph-label-';
+        result += id;
+        result += '"></p>';
         result += '<div class="legend" id="graph-legend-';
         result += id;
         result += '"></div>';
@@ -101,7 +107,7 @@
         fltData = filterOutPadding(data);
         barchartData = {
             labels: [
-                data.full_name + " [" + data.name + "]"
+                'milliseconds (ms)'
             ],
             datasets: fltData.map(function(value) {
                 return genDataSet(value);
@@ -117,6 +123,8 @@
         var chart = new Chart(ctx).Bar(barchartData,moreData);
         window.avgLoad = chart;
         document.getElementById('graph-legend-'+idx).innerHTML = chart.generateLegend();
+        document.getElementById('graph-label-'+idx).innerHTML =
+            data.full_name + " [" + data.name + "]";
     };
 
     window.initPage = function() {

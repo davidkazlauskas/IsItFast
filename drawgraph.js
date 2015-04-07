@@ -2,11 +2,11 @@
     //var legendTemplate = '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>';
     var legendTemplate = '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"><%if(datasets[i].label){%><%}%><%=datasets[i].label%></span></li><%}%></ul>';
 
-    var findData = function(data,name) {
+    var findData = function(data,sName) {
         var i,len;
         len = data.benchmarks.length;
         for (i = 0; i < len; ++i) {
-            if (data.benchmarks[i].name === name) {
+            if (data.benchmarks[i].name === sName) {
                 return data.benchmarks[i];
             }
         }
@@ -14,12 +14,12 @@
         return null;
     };
 
-    var findTime = function(data,name) {
+    var findTime = function(data,sName) {
         var i,len;
         len = data.times.length;
 
         for (i = 0; i < len; ++i) {
-            if (data.times[i].name === name) {
+            if (data.times[i].name === sName) {
                 return data.times[i];
             }
         }
@@ -45,7 +45,7 @@
 
     var genDataSet = function(time) {
         return {
-            label: time.full_name + " [" + time.name + "]",
+            label: (time.full_name + " [" + time.name + "]"),
             fillColor: getFillColor(time.name),
             strokeColor: "black",
             highlightFill: getHlFillColor(time.name),
@@ -63,18 +63,7 @@
             labels: [
                 "Filter select benchmark (filter-select)"
             ],
-            datasets: [
-            {
-                label: "Boilerplate version",
-                fillColor: "rgba(100,100,100,0.7)",
-                strokeColor: "rgba(77,77,77,0.8)",
-                highlightFill: "rgba(150,150,150,0.8)",
-                highlightStroke: "rgba(128,128,128,0.8)",
-                data: [
-                    findTime(theData,"BOILERPLATE").time
-                ]
-            }
-            ,
+            datasets: [ genDataSet(theData.times[0]) ,
             {
                 label: "Templatious version",
                 fillColor: "rgba(0,200,0,0.7)",

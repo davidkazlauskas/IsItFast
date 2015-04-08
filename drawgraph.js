@@ -1,31 +1,6 @@
 (function() {
     var legendTemplate = '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"><%if(datasets[i].label){%><%}%><%=datasets[i].label%></span></li><%}%></ul>';
 
-    var findData = function(data,sName) {
-        var i,len;
-        len = data.benchmarks.length;
-        for (i = 0; i < len; ++i) {
-            if (data.benchmarks[i].name === sName) {
-                return data.benchmarks[i];
-            }
-        }
-
-        return null;
-    };
-
-    var findTime = function(data,sName) {
-        var i,len;
-        len = data.times.length;
-
-        for (i = 0; i < len; ++i) {
-            if (data.times[i].name === sName) {
-                return data.times[i];
-            }
-        }
-
-        return null;
-    }
-
     var getFillColor = function(short_name) {
         if (short_name.indexOf("templatious") != -1) {
             return "rgba(0,200,0,0.7)";
@@ -55,11 +30,23 @@
         };
     }
 
-    var paintAll = function(data) {
-        var graphno,i;
-        graphno = 0;
+    var paintAll = function() {
+        var graphno,i,data,metadata,genHtml,infoString;
 
-        var genHtml = '';
+        metadata = getJson('./compiler-info.json');
+        data = getJson('./results.json');
+
+        if (!metadata || !data) {
+            document.getElementById("the-body").innerHTML =
+                "<h1>Run benchmarks at least once to view results.</h1>";
+            return;
+        }
+
+        infoString = "Compiler: " + metadata.compiler
+            + " ; Flags: " + metadata.flags;
+
+        graphno = 0;
+        genHtml = '';
         for (i = 0; i < data.benchmarks.length; ++i) {
             genHtml += generateCanvas(i);
             if (i < data.benchmarks.length - 1) {
@@ -69,8 +56,8 @@
         document.getElementById("the-body").innerHTML = genHtml;
 
         for (i = 0; i < data.benchmarks.length; ++i) {
-        //for (i = 0; i < 1; ++i) {
             paintGraph(data.benchmarks[i],i);
+            document.getElementById('graph-flags-'+i).innerHTML = infoString;
         }
     }
 
@@ -82,6 +69,19 @@
                 return true;
             }
         });
+    }
+
+    var getJson = function(file) {
+        var result;
+        $.ajax(file, {
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function(data,textStatus,jqXHR) {
+                result = data;
+            }
+        });
+        return result;
     }
 
     var generateCanvas = function(id) {
@@ -96,6 +96,9 @@
         result += id;
         result += '"></p>';
         result += '<div class="legend" id="graph-legend-';
+        result += id;
+        result += '"></div>';
+        result += '<div class="flags" id="graph-flags-';
         result += id;
         result += '"></div>';
         result += '</div>';
@@ -128,15 +131,6 @@
     };
 
     window.initPage = function() {
-        return $.ajax('./results.json', {
-            type: 'GET',
-            dataType: 'json',
-            success: function(data, textStatus, jqXHR) {
-                paintAll(data);
-            },
-            failure: function(data, textStatus, jqXHR) {
-                return alert("fail");
-            }
-        });
+        paintAll();
     };
 }).call(this);

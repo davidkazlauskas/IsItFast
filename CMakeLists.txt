@@ -17,7 +17,14 @@ set ( FLAGS
     -O3
 )
 
-file( WRITE ${CMAKE_BINARY_DIR}/flags.txt "${FLAGS}" )
+file( WRITE ${CMAKE_BINARY_DIR}/compiler-info.json
+    "
+    {
+        \"flags\": \"${FLAGS}\",
+        \"compiler\": \"${CMAKE_CXX_COMPILER}\"
+    }
+    "
+)
 
 add_executable( a.out main.cpp BenchRunner.cpp
     ${bench_files} )

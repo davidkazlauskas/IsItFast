@@ -8,6 +8,17 @@ include_directories(  $ENV{TEMPLATIOUS_DIR} )
 file( GLOB bench_files
     "benchmarks/*.cpp" )
 
+set ( FLAGS
+    -std=c++11
+    -lstdc++
+    -Wall
+    -x c++
+    -g
+    -O3
+)
+
+file( WRITE ${CMAKE_BINARY_DIR}/flags.txt "${FLAGS}" )
+
 add_executable( a.out main.cpp BenchRunner.cpp
     ${bench_files} )
 
@@ -16,14 +27,7 @@ SET( JAVASCRIPT_LIBS jquery-1.9.0.min.js Chart.min.js )
 
 file( COPY ${DISPLAY_HTML} ${JAVASCRIPT_LIBS} DESTINATION ${CMAKE_BINARY_DIR} )
 
-ADD_DEFINITIONS(
-    -std=c++11
-    -lstdc++
-    -Wall
-    -x c++
-    -g
-    -O3
-)
+ADD_DEFINITIONS( ${FLAGS} )
 
 #SET( CMAKE_CXX_COMPILER "g++-4.8" )
 SET( CMAKE_CXX_COMPILER "clang++-3.5" )

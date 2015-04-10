@@ -310,17 +310,31 @@ namespace IsItFast {
         const int ADD_SEQ = 1024;
 
         auto flappingStdVector = [=]() {
-            for (int i = 0; i < ROUNDS; ++i) {
+            TEMPLATIOUS_REPEAT(ROUNDS) {
                 std::vector<int> v;
-                v.reserve(1024);
+                v.reserve(ADD_SEQ);
 
                 SA::add(v,SF::seqL(ADD_SEQ));
+            }
+        };
+
+        auto shared = std::make_shared< std::vector<int> >();
+        shared->reserve(ADD_SEQ);
+
+        auto preallocatedStdVector = [=]() {
+            TEMPLATIOUS_REPEAT(ROUNDS) {
+                shared->clear();
+
+                SA::add(*shared,SF::seqL(ADD_SEQ));
             }
         };
 
         add.addTask("FLAPPING",
             "std::vector allocated each time"
             " on stack.",flappingStdVector);
+        add.addTask("PREALLOCATED",
+            "std::vector preallocated and"
+            " cleared each iteration.",preallocatedStdVector);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

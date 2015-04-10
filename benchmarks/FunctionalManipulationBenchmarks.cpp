@@ -201,7 +201,8 @@ namespace IsItFast {
 
     bool loopingNormalBenchmark() {
         Benchmark add(tr,50,"looping_simple",
-            "Simple loop 0 until 1000000");
+            "Simple loop 0 until 1000000"
+            " and sum all elements.");
 
         const int ROUNDS = 1000000;
         auto loopBoiler = [=]() {

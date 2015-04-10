@@ -304,7 +304,8 @@ namespace IsItFast {
     // file but I'm too lazy to make one
     bool staticVectorVsStdVectorBenchmark() {
         Benchmark add(tr,500,"static_vs_std",
-            "Static vector vs std::vector benchmarks.");
+            "Static vector vs std::vector benchmarks."
+            " Add 1024 integers to a vector 100 times.");
 
         const int ROUNDS = 100;
         const int ADD_SEQ = 1024;
@@ -329,12 +330,24 @@ namespace IsItFast {
             }
         };
 
+        auto templatiousStaticVector = [=]() {
+            TEMPLATIOUS_REPEAT(ROUNDS) {
+                templatious::StaticBuffer<int,ADD_SEQ> buf;
+
+                auto v = buf.getStaticVector();
+                SA::add(v,SF::seqL(ADD_SEQ));
+            }
+        };
+
         add.addTask("FLAPPING",
             "std::vector allocated each time"
-            " on stack.",flappingStdVector);
+            " on a stack.",flappingStdVector);
         add.addTask("PREALLOCATED",
             "std::vector preallocated and"
             " cleared each iteration.",preallocatedStdVector);
+        add.addTask("templatious",
+            "Static vector initiated on stack"
+            " each iteration.",templatiousStaticVector);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
 

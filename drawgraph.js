@@ -110,7 +110,7 @@
         fltData = filterOutPadding(data);
         barchartData = {
             labels: [
-                'milliseconds (ms)'
+                'microseconds'
             ],
             datasets: fltData.map(function(value) {
                 return genDataSet(value);

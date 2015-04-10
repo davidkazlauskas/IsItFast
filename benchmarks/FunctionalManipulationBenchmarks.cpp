@@ -300,10 +300,38 @@ namespace IsItFast {
         return true;
     }
 
+    // this should probably go to a different
+    // file but I'm too lazy to make one
+    bool staticVectorVsStdVectorBenchmark() {
+        Benchmark add(tr,500,"static_vs_std",
+            "Static vector vs std::vector benchmarks.");
+
+        const int ROUNDS = 100;
+        const int ADD_SEQ = 1024;
+
+        auto flappingStdVector = [=]() {
+            for (int i = 0; i < ROUNDS; ++i) {
+                std::vector<int> v;
+                v.reserve(1024);
+
+                SA::add(v,SF::seqL(ADD_SEQ));
+            }
+        };
+
+        add.addTask("FLAPPING",
+            "std::vector allocated each time"
+            " on stack.",flappingStdVector);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
+    }
+
     static bool didAdd =
         ifSelectCpy()
         && filterOutVector()
         && distributionBenchmark()
         && loopingNormalBenchmark()
-        && nestedLoopingBenchmark();
+        && nestedLoopingBenchmark()
+        && staticVectorVsStdVectorBenchmark();
 }

@@ -216,6 +216,9 @@ namespace IsItFast {
         auto tempLoop1 = [=]() {
             volatile int sum = 0;
 
+            // kinda unfair because SM::sum doesn't
+            // have to write to volatile variable but
+            // hey, LET'S BOAST!
             sum += SM::sum<int>(SF::seqL(ROUNDS));
         };
 

@@ -23,6 +23,21 @@ namespace {
     IsItFast::TimeResolution* tr = IsItFast::TimeResolutionFactory::s_curr;
 }
 
+#define MFUNCT_DUMMY_2 \
+    SF::virtualMatch<int,char>(\
+        [](int,char) { assert(false); }\
+    ),\
+    SF::virtualMatch<char,int>(\
+        [](char,int) { assert(false); }\
+    )
+
+#define MFUNCT_DUMMY_4 MFUNCT_DUMMY_2,MFUNCT_DUMMY_2
+#define MFUNCT_DUMMY_8 MFUNCT_DUMMY_4,MFUNCT_DUMMY_4
+#define MFUNCT_DUMMY_16 MFUNCT_DUMMY_8,MFUNCT_DUMMY_8
+#define MFUNCT_DUMMY_32 MFUNCT_DUMMY_16,MFUNCT_DUMMY_16
+#define MFUNCT_DUMMY_64 MFUNCT_DUMMY_32,MFUNCT_DUMMY_32
+#define MFUNCT_DUMMY_128 MFUNCT_DUMMY_64,MFUNCT_DUMMY_64
+
 namespace IsItFast {
 
     bool warBetweenVirtualPacks() {
@@ -31,35 +46,66 @@ namespace IsItFast {
             " in match functor where first 128 don't match,"
             " the last one does.");
 
-        auto boiler = []() {
-            volatile double sum = 0;
+        auto theTarget = SF::vpackPtr<int,int>(1,2);
+        auto scapeGoat = std::make_shared<long>(0);
 
-            auto& vecRef = *sptr;
-            int len = vecRef.size();
-            for (int i = 0; i < len; i += 7)
-            {
-                sum += vecRef[i] * 7;
-            }
+        auto inlineMatcher =
+            SF::virtualMatchFunctorPtr(
+                MFUNCT_DUMMY_128,
+                SF::virtualMatch<int,int>(
+                    [=](int a,int b) {
+                        ++(*scapeGoat);
+                    }
+                )
+            );
+
+        auto dynamicMatcher = std::make_shared<
+            templatious::DynamicVMatchFunctor
+        >();
+
+        TEMPLATIOUS_REPEAT( 128 ) {
+            dynamicMatcher->attach(
+                SF::virtualMatchFunctorPtr(
+                    MFUNCT_DUMMY_2
+                )
+            );
+        }
+        dynamicMatcher->attach(
+            SF::virtualMatch<int,int>(
+                [=](int a,int b) {
+                    ++(*scapeGoat);
+                }
+            )
+        );
+
+        auto dynFunct = [=]() {
+            dynamicMatcher->tryMatch(*theTarget);
+        }
+
+        auto inlineFunctPtr = [=]() {
+            inlineMatcher->tryMatch(*theTarget);
         };
 
-        auto temp = []() {
-            volatile double sum = 0;
-            auto sel =
-                SF::select(
-                    SF::skip(*sptr,7),
-                    [](int i) -> double { return i * 7; }
+        auto inlineFunct = [=]() {
+            auto innerMatcher =
+                SF::virtualMatchFunctor(
+                    MFUNCT_DUMMY_128,
+                    SF::virtualMatch<int,int>(
+                        [=](int a,int b) {
+                            ++(*scapeGoat);
+                        }
+                    )
                 );
 
-            TEMPLATIOUS_FOREACH(auto i,sel) {
-                sum += i;
-            }
-        };
+            innerMatcher.tryMatch(*theTarget);
+        }
 
-        add.addTask("PADDING","PADDING",boiler);
-        add.addTask("BOILERPLATE","Imperative version",
-            boiler);
-        add.addTask("templatious_select","Templatious version",
-            temp);
+        add.addTask("templatious_dynamic_vpack","Dynamic templatious virtual match functor.",
+            dynFunct);
+        add.addTask("templatious_inline_ptr","Heap allocated templatious inline virtual match functor.",
+            inlineFunctPtr);
+        add.addTask("templatious_inline_stack","Stack allocated templatious inline virtual match functor.",
+            inlineFunct);
 
         BenchCollection::s_inst.addBenchmark(std::move(add));
         return true;

@@ -49,7 +49,7 @@ namespace IsItFast {
         auto theTarget = SF::vpackPtr<int,int>(1,2);
         auto scapeGoat = std::make_shared<long>(0);
 
-        auto inlineMatcher =
+        auto inlineMatcherPtr =
             SF::virtualMatchFunctorPtr(
                 MFUNCT_DUMMY_128,
                 SF::virtualMatch<int,int>(
@@ -58,6 +58,10 @@ namespace IsItFast {
                     }
                 )
             );
+
+        auto rawPtr = inlineMatcherPtr.release();
+        typedef typename std::decay< decltype(*rawPtr) >::type TheRaw;
+        std::shared_ptr< TheRaw > sIMPtr(rawPtr);
 
         auto dynamicMatcher = std::make_shared<
             templatious::DynamicVMatchFunctor
@@ -71,10 +75,12 @@ namespace IsItFast {
             );
         }
         dynamicMatcher->attach(
-            SF::virtualMatch<int,int>(
-                [=](int a,int b) {
-                    ++(*scapeGoat);
-                }
+            SF::virtualMatchFunctorPtr(
+                SF::virtualMatch<int,int>(
+                    [=](int a,int b) {
+                        ++(*scapeGoat);
+                    }
+                )
             )
         );
 
@@ -83,7 +89,7 @@ namespace IsItFast {
         };
 
         auto inlineFunctPtr = [=]() {
-            inlineMatcher->tryMatch(*theTarget);
+            sIMPtr->tryMatch(*theTarget);
         };
 
         auto inlineFunct = [=]() {
@@ -98,7 +104,7 @@ namespace IsItFast {
                 );
 
             innerMatcher.tryMatch(*theTarget);
-        }
+        };
 
         add.addTask("templatious_dynamic_vpack","Dynamic templatious virtual match functor.",
             dynFunct);
@@ -112,5 +118,5 @@ namespace IsItFast {
     }
 
     static bool didAdd =
-        ifSelectCpy();
+        warBetweenVirtualPacks();
 }

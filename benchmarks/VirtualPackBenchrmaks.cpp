@@ -41,7 +41,7 @@ namespace {
 namespace IsItFast {
 
     bool warBetweenVirtualPacks() {
-        Benchmark add(tr,50,"virtual-pack","Different virtual pack"
+        Benchmark add(tr,1,"virtual-pack","Different virtual pack"
             " processing speed. Process 100000 messages,"
             " in match functor where first 128 don't match,"
             " the last one does.");

@@ -111,7 +111,7 @@ void printOutResults(IsItFast::BenchCollection& r) {
     std::string full;
     std::string sName;
     double avgTime;
-    auto p = SF::pack("\tShort Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime,"ms\n");
+    auto p = SF::pack("\tShort Name: ",sName,"; Full Name: ",full,"; Time: ",avgTime," micro seconds\n");
 
     std::string blockName;
     std::string fullBlockName;

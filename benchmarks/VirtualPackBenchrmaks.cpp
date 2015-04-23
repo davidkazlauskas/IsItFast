@@ -49,6 +49,8 @@ namespace IsItFast {
         auto theTarget = SF::vpackPtr<int,int>(1,2);
         auto scapeGoat = std::make_shared<long>(0);
 
+        const int ROUNDS = 100000;
+
         auto inlineMatcherPtr =
             SF::virtualMatchFunctorPtr(
                 MFUNCT_DUMMY_128,
@@ -59,6 +61,10 @@ namespace IsItFast {
                 )
             );
 
+        // kids, don't do this at home, matcher is
+        // created as std::unique_ptr for a reason.
+        // If it was shared_ptr the loops would
+        // be just around the corner.
         auto rawPtr = inlineMatcherPtr.release();
         typedef typename std::decay< decltype(*rawPtr) >::type TheRaw;
         std::shared_ptr< TheRaw > sIMPtr(rawPtr);
@@ -85,11 +91,15 @@ namespace IsItFast {
         );
 
         auto dynFunct = [=]() {
-            dynamicMatcher->tryMatch(*theTarget);
+            TEMPLATIOUS_REPEAT( ROUNDS ) {
+                dynamicMatcher->tryMatch(*theTarget);
+            }
         };
 
         auto inlineFunctPtr = [=]() {
-            sIMPtr->tryMatch(*theTarget);
+            TEMPLATIOUS_REPEAT( ROUNDS ) {
+                sIMPtr->tryMatch(*theTarget);
+            }
         };
 
         auto inlineFunct = [=]() {
@@ -103,7 +113,9 @@ namespace IsItFast {
                     )
                 );
 
-            innerMatcher.tryMatch(*theTarget);
+            TEMPLATIOUS_REPEAT( ROUNDS ) {
+                innerMatcher.tryMatch(*theTarget);
+            }
         };
 
         add.addTask("templatious_dynamic_vpack","Dynamic templatious virtual match functor.",

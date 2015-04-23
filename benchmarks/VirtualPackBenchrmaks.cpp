@@ -80,7 +80,7 @@ namespace IsItFast {
 
         auto dynFunct = [=]() {
             dynamicMatcher->tryMatch(*theTarget);
-        }
+        };
 
         auto inlineFunctPtr = [=]() {
             inlineMatcher->tryMatch(*theTarget);

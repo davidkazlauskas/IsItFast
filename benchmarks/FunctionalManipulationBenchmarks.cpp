@@ -369,7 +369,7 @@ namespace IsItFast {
 
     bool stdVectorVirtualWrapBenchmark() {
         Benchmark add(tr,50,"virtual_wrap_vector",
-            "Performance of std::vector raw and wrapper"
+            "Performance of std::vector raw and wrapped"
             " inside VirtualCollection");
 
         auto ptr = std::make_shared< std::vector<int> >();

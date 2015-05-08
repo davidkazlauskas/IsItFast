@@ -358,11 +358,54 @@ namespace IsItFast {
         return true;
     }
 
+    struct WrapContainer {
+        WrapContainer(templatious::VCollection<int>&& v) : _t(std::move(v)) {}
+
+        WrapContainer(const WrapContainer& cnst) :
+            _t(std::move(const_cast< WrapContainer& >(cnst)._t)) {}
+
+        templatious::VCollection<int> _t;
+    };
+
+    bool stdVectorVirtualWrapBenchmark() {
+        Benchmark add(tr,50,"virtual_wrap_vector",
+            "Performance of std::vector raw and wrapper"
+            " inside VirtualCollection");
+
+        auto ptr = std::make_shared< std::vector<int> >();
+        auto ww = SF::vcollection(*ptr);
+        WrapContainer cont(std::move(ww));
+
+        const int ELEMENTS = 1000000;
+
+        auto clAddRaw = [=]() {
+            SA::clear(*ptr);
+            SA::add(*ptr,SF::seqL(ELEMENTS));
+        };
+
+        auto clAddWrapper = [=]() {
+            typedef templatious::VCollection<int>& CastAway;
+            CastAway ncref = const_cast< CastAway >(cont._t);
+            SA::clear(ncref);
+            SA::add(ncref,SF::seqL(ELEMENTS));
+        };
+
+        add.addTask("templatious_no_wrap",
+            "Unwrapped std::vector addition.",clAddRaw);
+        add.addTask("templatious_wrap",
+            "Virtual wrap around std::vector addition.",clAddWrapper);
+
+        BenchCollection::s_inst.addBenchmark(std::move(add));
+
+        return true;
+    }
+
     static bool didAdd =
         ifSelectCpy()
         && filterOutVector()
         && distributionBenchmark()
         && loopingNormalBenchmark()
         && nestedLoopingBenchmark()
-        && staticVectorVsStdVectorBenchmark();
+        && staticVectorVsStdVectorBenchmark()
+        && stdVectorVirtualWrapBenchmark();
 }

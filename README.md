@@ -2,7 +2,7 @@
 Benchmarks for templatious library to test performance for specific compilers.
 [![Build Status](https://travis-ci.org/davidkazlauskas/IsItFast.svg)](https://travis-ci.org/davidkazlauskas/IsItFast)
 
-Compile and run this project to find out how good templatious library will perform on your compiler. TEMPLATIOUS_DIR enviroment variable
+Compile and run this project to find out how good templatious library will perform on your compiler. TEMPLATIOUS_DIR enviroment variable should be defined.
 
 ~~~~~~
 export TEMPLATIOUS_DIR=<path to templatious library>

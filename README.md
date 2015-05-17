@@ -1,5 +1,5 @@
 # IsItFast
-Benchmarks for templatious library to test performance for specific compilers.
+Benchmarks for templatious library to test performance for specific compilers and processors.
 [![Build Status](https://travis-ci.org/davidkazlauskas/IsItFast.svg)](https://travis-ci.org/davidkazlauskas/IsItFast)
 
 Compile and run this project to find out how good templatious library will perform on your compiler. TEMPLATIOUS_DIR enviroment variable should be defined.

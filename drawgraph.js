@@ -52,7 +52,7 @@
         for (i = 0; i < data.benchmarks.length; ++i) {
             genHtml += generateCanvas(i);
             if (i < data.benchmarks.length - 1) {
-                genHtml += '<hr/>';
+                genHtml += '<br/><hr/>';
             }
         }
         document.getElementById("the-body").innerHTML = genHtml;

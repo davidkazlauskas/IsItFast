@@ -24,3 +24,14 @@ cmake step should be like:
 cmake -DCMAKE_CXX_COMPILER=clang++-3.5 ..
 ~~~~~~
 
+To find code chunks that represent charts in browser you can grep titles.
+For instance, to find
+~~~~~~~
+- Dynamic templatious virtual match functor. [templatious_dynamic_vpack]
+~~~~~~~
+
+One could execute the following command in this directory:
+~~~~~~~
+grep -r "templatious_dynamic_vpack" .
+~~~~~~~
+

@@ -43,7 +43,9 @@
         }
 
         infoString = "Compiler: " + metadata.compiler
-            + " ; Flags: " + metadata.flags;
+            + " ; Flags: " + metadata.flags
+            + " ; System name: " + metadata.sysname
+            + " ; Processor: " + metadata.processor;
 
         graphno = 0;
         genHtml = '';

@@ -21,7 +21,9 @@ file( WRITE ${CMAKE_BINARY_DIR}/compiler-info.json
     "
     {
         \"flags\": \"${FLAGS}\",
-        \"compiler\": \"${CMAKE_CXX_COMPILER}\"
+        \"compiler\": \"${CMAKE_CXX_COMPILER}\",
+        \"sysname\": \"${CMAKE_SYSTEM}\",
+        \"processor\": \"${CMAKE_SYSTEM_PROCESSOR}\"
     }
     "
 )

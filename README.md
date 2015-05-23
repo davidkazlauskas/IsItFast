@@ -17,3 +17,10 @@ make
 # view results
 firefox view.html
 ~~~~~~
+
+To use specific compiler (for instance, clang++-3.5)
+cmake step should be like:
+~~~~~~
+cmake -DCMAKE_CXX_COMPILER=clang++-3.5 ..
+~~~~~~
+
